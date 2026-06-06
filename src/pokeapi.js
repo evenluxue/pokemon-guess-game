@@ -30,3 +30,11 @@ export async function fetchPokemonDetails(id) {
     spriteUrl: spriteUrl(id),
   }
 }
+
+export async function fetchGen1List() {
+  const data = await getJson(`${API_BASE}/pokemon?limit=151&offset=0`)
+  return data.results.map((entry, index) => ({
+    id: index + 1,
+    name: capitalize(entry.name),
+  }))
+}

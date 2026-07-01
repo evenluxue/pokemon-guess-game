@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { scoreRound, pickRound } from './gameLogic'
+import { scoreRound, pickRound, bestType } from './gameLogic'
 
 describe('scoreRound', () => {
   it('awards 10 for a correct answer with no hints', () => {
@@ -43,5 +43,46 @@ describe('pickRound', () => {
   it('only uses names from the pool', () => {
     const { options } = pickRound(pool, 'Pikachu')
     options.forEach((name) => expect(pool).toContain(name))
+  })
+})
+
+describe('bestType', () => {
+  it('returns null for empty history', () => {
+    expect(bestType([])).toBe(null)
+  })
+
+  it('returns null when no guesses were correct', () => {
+    const history = [
+      { types: ['Fire'], correct: false },
+      { types: ['Water'], correct: false },
+    ]
+    expect(bestType(history)).toBe(null)
+  })
+
+  it('returns the type with the highest correct rate', () => {
+    const history = [
+      { types: ['Fire'], correct: true },
+      { types: ['Fire'], correct: true },
+      { types: ['Water'], correct: false },
+      { types: ['Grass'], correct: true },
+      { types: ['Grass'], correct: false },
+    ]
+    // Fire 2/2 = 1.0 beats Grass 1/2 and Water 0/1
+    expect(bestType(history)).toBe('Fire')
+  })
+
+  it('breaks rate ties by number of appearances', () => {
+    const history = [
+      { types: ['Electric'], correct: true }, // Electric 1/1 = 1.0
+      { types: ['Rock'], correct: true }, // Rock 2/2 = 1.0
+      { types: ['Rock'], correct: true },
+    ]
+    expect(bestType(history)).toBe('Rock')
+  })
+
+  it('counts each type of a dual-type Pokémon', () => {
+    const history = [{ types: ['Water', 'Flying'], correct: true }]
+    // both 1/1; full tie resolves alphabetically -> Flying
+    expect(bestType(history)).toBe('Flying')
   })
 })

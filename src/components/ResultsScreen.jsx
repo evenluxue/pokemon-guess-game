@@ -5,12 +5,17 @@ function message(score) {
   return 'Better luck next time!'
 }
 
-export default function ResultsScreen({ score, maxScore, onPlayAgain }) {
+export default function ResultsScreen({ score, maxScore, trainerType, onPlayAgain }) {
   return (
     <div className="screen results-screen">
       <h1>Game Over</h1>
       <p className="final-score">{score} / {maxScore}</p>
       <p>{message(score)}</p>
+      {trainerType && (
+        <p className="trainer-type">
+          You are the <span>{trainerType}</span>-type Pokémon Trainer!
+        </p>
+      )}
       <button className="primary" onClick={onPlayAgain}>
         Play Again
       </button>

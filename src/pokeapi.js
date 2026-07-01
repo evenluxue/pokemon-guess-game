@@ -1,5 +1,5 @@
 const SPRITE_BASE =
-  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon'
+  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork'
 const API_BASE = 'https://pokeapi.co/api/v2'
 
 function capitalize(s) {

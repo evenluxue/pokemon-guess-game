@@ -6,7 +6,7 @@ afterEach(() => vi.restoreAllMocks())
 describe('spriteUrl', () => {
   it('builds the official sprite URL from an id', () => {
     expect(spriteUrl(25)).toBe(
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png'
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png'
     )
   })
 })
@@ -41,7 +41,7 @@ describe('fetchPokemonDetails', () => {
       name: 'Pikachu',
       types: ['Electric'],
       genus: 'Mouse Pokémon',
-      spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
+      spriteUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
     })
   })
 })

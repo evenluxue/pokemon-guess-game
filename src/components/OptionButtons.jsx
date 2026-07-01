@@ -1,3 +1,5 @@
+import { NAMES_ZH } from '../pokemonNamesZh'
+
 export default function OptionButtons({ options, answer, selected, answered, onAnswer }) {
   function classFor(name) {
     if (!answered) return 'option'
@@ -14,7 +16,8 @@ export default function OptionButtons({ options, answer, selected, answered, onA
           disabled={answered}
           onClick={() => onAnswer(name)}
         >
-          {name}
+          <span className="option-en">{name}</span>
+          {NAMES_ZH[name] && <span className="option-zh">{NAMES_ZH[name]}</span>}
         </button>
       ))}
     </div>

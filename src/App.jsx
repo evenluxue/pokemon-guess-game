@@ -1,26 +1,31 @@
 import { useEffect, useState, useCallback } from 'react'
 import './App.css'
 import { fetchGen1List, fetchPokemonDetails } from './pokeapi'
-import { pickRound, scoreRound } from './gameLogic'
+import { pickRound, scoreRound, bestType } from './gameLogic'
 import StartScreen from './components/StartScreen'
 import ScoreBar from './components/ScoreBar'
 import PokemonSilhouette from './components/PokemonSilhouette'
 import HintPanel from './components/HintPanel'
 import OptionButtons from './components/OptionButtons'
 import ResultsScreen from './components/ResultsScreen'
-
-const TOTAL_ROUNDS = 10
-const MAX_SCORE = TOTAL_ROUNDS * 10
+import GuessHistory from './components/GuessHistory'
+import ReviewModal from './components/ReviewModal'
+import TypeShowcase from './components/TypeShowcase'
 
 export default function App() {
   const [pool, setPool] = useState(null) // [{id, name}]
   const [loadError, setLoadError] = useState(false)
   const [phase, setPhase] = useState('start') // start | loading | playing | revealed | results
+  const [totalRounds, setTotalRounds] = useState(10)
   const [round, setRound] = useState(1)
   const [score, setScore] = useState(0)
   const [current, setCurrent] = useState(null) // {details, options}
   const [hintsUsed, setHintsUsed] = useState(0)
   const [selected, setSelected] = useState(null)
+  const [history, setHistory] = useState([]) // [{ round, name, types, spriteUrl, guess, correct, points }]
+  const [reviewEntry, setReviewEntry] = useState(null)
+
+  const maxScore = totalRounds * 10
 
   const loadPool = useCallback(async () => {
     setLoadError(false)
@@ -48,10 +53,17 @@ export default function App() {
     setPhase('playing')
   }, [pool])
 
-  function play() {
+  function play(rounds) {
+    setTotalRounds(rounds)
     setRound(1)
     setScore(0)
+    setHistory([])
     startRound()
+  }
+
+  function goToStart() {
+    setReviewEntry(null)
+    setPhase('start')
   }
 
   function getHint() {
@@ -61,12 +73,25 @@ export default function App() {
   function answer(name) {
     setSelected(name)
     const correct = name === current.details.name
-    setScore((s) => s + scoreRound(correct, hintsUsed))
+    const points = scoreRound(correct, hintsUsed)
+    setScore((s) => s + points)
+    setHistory((h) => [
+      ...h,
+      {
+        round,
+        name: current.details.name,
+        types: current.details.types,
+        spriteUrl: current.details.spriteUrl,
+        guess: name,
+        correct,
+        points,
+      },
+    ])
     setPhase('revealed')
   }
 
   function next() {
-    if (round >= TOTAL_ROUNDS) {
+    if (round >= totalRounds) {
       setPhase('results')
     } else {
       setRound((r) => r + 1)
@@ -96,7 +121,31 @@ export default function App() {
   }
 
   if (phase === 'results') {
-    return <ResultsScreen score={score} maxScore={MAX_SCORE} onPlayAgain={play} />
+    const trainerType = bestType(history)
+    const typeMons = trainerType
+      ? [
+          ...new Map(
+            history
+              .filter((h) => h.types.includes(trainerType))
+              .map((h) => [h.name, h])
+          ).values(),
+        ]
+      : []
+    return (
+      <div className="game-layout">
+        <GuessHistory history={history} onSelect={setReviewEntry} />
+        <ResultsScreen
+          score={score}
+          maxScore={maxScore}
+          trainerType={trainerType}
+          onPlayAgain={goToStart}
+        />
+        <TypeShowcase type={trainerType} mons={typeMons} />
+        {reviewEntry && (
+          <ReviewModal entry={reviewEntry} onClose={() => setReviewEntry(null)} />
+        )}
+      </div>
+    )
   }
 
   if (phase === 'loading' || !current) {
@@ -105,11 +154,14 @@ export default function App() {
 
   const { details, options } = current
   const answered = phase === 'revealed'
+  const isCorrect = answered && selected === details.name
 
   return (
-    <div className="screen game-screen">
-      <ScoreBar round={round} totalRounds={TOTAL_ROUNDS} score={score} />
-      <PokemonSilhouette src={details.spriteUrl} revealed={answered} alt={details.name} />
+    <div className="game-layout">
+      <GuessHistory history={history} />
+      <div className="screen game-screen">
+        <ScoreBar round={round} totalRounds={totalRounds} score={score} />
+      <PokemonSilhouette src={details.spriteUrl} revealed={answered} correct={isCorrect} wrong={answered && !isCorrect} alt={details.name} />
       {answered && (
         <p className="reveal-name">
           {selected === details.name ? "It's " : 'It was '} {details.name}!
@@ -123,11 +175,12 @@ export default function App() {
         answered={answered}
         onAnswer={answer}
       />
-      {answered && (
-        <button className="primary" onClick={next}>
-          {round >= TOTAL_ROUNDS ? 'See Results' : 'Next'}
-        </button>
-      )}
+        {answered && (
+          <button className="primary" onClick={next}>
+            {round >= totalRounds ? 'See Results' : 'Next'}
+          </button>
+        )}
+      </div>
     </div>
   )
 }

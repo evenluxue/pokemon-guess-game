@@ -29,12 +29,13 @@ animate `stroke-dashoffset` so the line draws itself.
 
 ## Modules
 
-### 1. `src/outline/marchingSquares.js` (pure, unit-tested)
+### 1. `src/outline/contourTrace.js` (pure, unit-tested)
 
 `traceContours(alpha, width, height, threshold) → Array<Array<{x, y}>>`
 
-Marching-squares contour tracing over an alpha grid. Returns closed contour loops.
-No DOM dependency — this is the testable core of the feature.
+Moore-neighbor boundary tracing over an alpha grid. Returns ordered, closed contour
+loops (one per connected component's outer boundary). An ordered loop is exactly what the
+`stroke-dashoffset` animation needs. No DOM dependency — this is the testable core.
 
 ### 2. `src/outline/extractOutline.js` (DOM glue, thin)
 
@@ -89,8 +90,8 @@ Flow:
 
 ## Testing
 
-- Unit-test `traceContours` with synthetic alpha grids: solid square → one closed loop,
-  empty grid → no contour, a concave shape → expected loop.
+- Unit-test `traceContours` with synthetic alpha grids: solid square → one closed loop of
+  the border pixels, empty grid → no contour, a single stray pixel → filtered out.
 - Unit-test `traceDuration(length)` clamp behavior at, below, and above the 5–10s bounds.
 - Component: jsdom cannot rasterize images, so canvas pixel reads are unavailable there.
   Test the **fallback branch** — when extraction is unavailable, the component renders the

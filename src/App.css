@@ -214,9 +214,6 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 
 .silhouette.revealed { filter: none; }
 
-/* While the outline is drawing, the silhouette is hidden and only the line shows. */
-.silhouette.tracing { opacity: 0; }
-
 .trace-svg {
   position: absolute;
   top: 50%;
@@ -228,13 +225,46 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
   pointer-events: none;
 }
 
+/* Wide blurred halo behind the main stroke */
+.trace-path-glow {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.18;
+  filter: blur(3px);
+}
+
 .trace-path {
   fill: none;
   stroke: var(--accent);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 6px rgba(255, 203, 5, 0.6));
+  filter: drop-shadow(0 0 4px rgba(255, 203, 5, 0.8));
+}
+
+/* Bright travelling dot at the leading edge */
+.trace-path-tip {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  animation: tip-sparkle 0.2s ease-in-out infinite alternate;
+}
+
+@keyframes tip-sparkle {
+  from {
+    stroke: #fff;
+    stroke-width: 4;
+    filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 8px var(--accent));
+  }
+  to {
+    stroke: var(--accent);
+    stroke-width: 7;
+    filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 18px var(--accent)) drop-shadow(0 0 24px rgba(255, 203, 5, 0.5));
+  }
 }
 
 .reveal-name { font-size: 1.3rem; font-weight: 700; color: var(--accent); }

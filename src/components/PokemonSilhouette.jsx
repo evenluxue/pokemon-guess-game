@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useReducer, useRef } from 'react'
 import { extractOutline } from '../outline/extractOutline'
 import { traceDuration } from '../outline/traceDuration'
 
@@ -13,20 +13,29 @@ function prefersReducedMotion() {
   )
 }
 
-// mode: preparing | tracing | silhouette | revealed | fallback
+function reducer(state, action) {
+  switch (action.type) {
+    case 'RESET': return { phase: 'preparing', outline: null }
+    case 'FALLBACK': return { phase: 'fallback', outline: null }
+    case 'TRACING': return { phase: 'tracing', outline: action.outline }
+    case 'SILHOUETTE': return { ...state, phase: 'silhouette' }
+    default: return state
+  }
+}
+
+// phase: preparing | tracing | silhouette | fallback
+// revealed prop always wins and is derived at render time
 export default function PokemonSilhouette({ src, revealed, correct, wrong, alt }) {
-  const [mode, setMode] = useState('preparing')
-  const [outline, setOutline] = useState(null) // { d, viewBox }
+  const [{ phase, outline }, dispatch] = useReducer(reducer, { phase: 'preparing', outline: null })
   const pathRef = useRef(null)
 
   // Load the sprite CORS-clean and extract its outline whenever src changes.
   useEffect(() => {
     let cancelled = false
-    setMode('preparing')
-    setOutline(null)
+    dispatch({ type: 'RESET' })
 
     if (prefersReducedMotion()) {
-      setMode('fallback')
+      dispatch({ type: 'FALLBACK' })
       return
     }
 
@@ -36,15 +45,13 @@ export default function PokemonSilhouette({ src, revealed, correct, wrong, alt }
       if (cancelled) return
       try {
         const result = extractOutline(img)
-        if (cancelled) return
-        setOutline(result)
-        setMode('tracing')
+        if (!cancelled) dispatch({ type: 'TRACING', outline: result })
       } catch {
-        if (!cancelled) setMode('fallback')
+        if (!cancelled) dispatch({ type: 'FALLBACK' })
       }
     }
     img.onerror = () => {
-      if (!cancelled) setMode('fallback')
+      if (!cancelled) dispatch({ type: 'FALLBACK' })
     }
     img.src = src
 
@@ -53,14 +60,9 @@ export default function PokemonSilhouette({ src, revealed, correct, wrong, alt }
     }
   }, [src])
 
-  // Answering always wins — jump straight to the color reveal.
-  useEffect(() => {
-    if (revealed) setMode('revealed')
-  }, [revealed])
-
   // Kick off the self-drawing animation once the path is mounted.
   useEffect(() => {
-    if (mode !== 'tracing' || !pathRef.current) return
+    if (phase !== 'tracing' || !pathRef.current) return
     const path = pathRef.current
     const length = path.getTotalLength()
     const duration = traceDuration(length)
@@ -75,11 +77,14 @@ export default function PokemonSilhouette({ src, revealed, correct, wrong, alt }
       path.style.strokeDashoffset = '0'
     })
     return () => cancelAnimationFrame(raf)
-  }, [mode, outline])
+  }, [phase, outline])
 
   function handleTraceEnd() {
-    setMode((m) => (m === 'tracing' ? 'silhouette' : m))
+    dispatch({ type: 'SILHOUETTE' })
   }
+
+  // `revealed` prop always wins — derive the display mode without a separate effect.
+  const mode = revealed ? 'revealed' : phase
 
   const imgClass =
     mode === 'revealed'

@@ -209,10 +209,33 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
   height: 400px;
   object-fit: contain;
   filter: brightness(0);
-  transition: filter 0.5s ease;
+  transition: filter 0.5s ease, opacity 0.4s ease;
 }
 
 .silhouette.revealed { filter: none; }
+
+/* While the outline is drawing, the silhouette is hidden and only the line shows. */
+.silhouette.tracing { opacity: 0; }
+
+.trace-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.trace-path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px rgba(255, 203, 5, 0.6));
+}
 
 .reveal-name { font-size: 1.3rem; font-weight: 700; color: var(--accent); }
 

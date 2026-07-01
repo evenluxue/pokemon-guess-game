@@ -214,6 +214,9 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 
 .silhouette.revealed { filter: none; }
 
+/* During tracing only the SVG line is shown; silhouette fades in after. */
+.silhouette.tracing { opacity: 0; }
+
 .trace-svg {
   position: absolute;
   top: 50%;

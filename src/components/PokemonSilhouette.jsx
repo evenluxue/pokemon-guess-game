@@ -122,7 +122,9 @@ export default function PokemonSilhouette({ src, revealed, correct, wrong, alt }
   const imgClass =
     mode === 'revealed'
       ? 'silhouette revealed'
-      : 'silhouette'
+      : mode === 'tracing'
+        ? 'silhouette tracing'
+        : 'silhouette'
 
   return (
     <div className="silhouette-wrap">

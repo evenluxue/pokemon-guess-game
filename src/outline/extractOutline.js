@@ -45,9 +45,11 @@ export function extractOutline(img, { maxSize = 160, threshold = 128 } = {}) {
   const significant = contours
     .filter((c) => c.length >= 8)
     .sort((a, b) => b.length - a.length)
-  const chosen = significant.length ? significant : contours
-  if (chosen.length === 0) throw new Error('no contour found')
+  // Use only the longest contour (the outer boundary) so inner sub-paths don't
+  // appear early — SVG applies stroke-dashoffset per sub-path, not globally.
+  const outer = significant[0] ?? contours.sort((a, b) => b.length - a.length)[0]
+  if (!outer) throw new Error('no contour found')
 
-  const d = chosen.map(contourToPath).join(' ')
+  const d = contourToPath(outer)
   return { d, viewBox: `0 0 ${w} ${h}`, width: w, height: h }
 }

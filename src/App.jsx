@@ -25,7 +25,8 @@ export default function App() {
   const [selected, setSelected] = useState(null)
   const [history, setHistory] = useState([]) // [{ round, name, types, spriteUrl, guess, correct, points }]
   const [reviewEntry, setReviewEntry] = useState(null)
-  const [startedAt, setStartedAt] = useState(null)
+  const [accumulatedMs, setAccumulatedMs] = useState(0)
+  const [intervalStart, setIntervalStart] = useState(null)
   const [elapsedMs, setElapsedMs] = useState(0)
 
   const maxScore = totalRounds * 10
@@ -45,17 +46,18 @@ export default function App() {
   }, [loadPool])
 
   useEffect(() => {
-    if (startedAt === null || phase === 'results') return
-    const id = setInterval(() => {
-      setElapsedMs(Date.now() - startedAt)
-    }, 1000)
+    if (intervalStart === null) return
+    const tick = () => setElapsedMs(accumulatedMs + (Date.now() - intervalStart))
+    tick()
+    const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [startedAt, phase])
+  }, [accumulatedMs, intervalStart])
 
   const startRound = useCallback(async () => {
     setPhase('loading')
     setHintsUsed(0)
     setSelected(null)
+    setIntervalStart(Date.now())
     const names = pool.map((p) => p.name)
     const answerEntry = pool[Math.floor(Math.random() * pool.length)]
     const { options } = pickRound(names, answerEntry.name)
@@ -69,8 +71,7 @@ export default function App() {
     setRound(1)
     setScore(0)
     setHistory([])
-    setStartedAt(Date.now())
-    setElapsedMs(0)
+    setAccumulatedMs(0)
     startRound()
   }
 
@@ -100,6 +101,11 @@ export default function App() {
         points,
       },
     ])
+    const activeMs = intervalStart === null ? 0 : Date.now() - intervalStart
+    const newAccumulated = accumulatedMs + activeMs
+    setAccumulatedMs(newAccumulated)
+    setElapsedMs(newAccumulated)
+    setIntervalStart(null)
     setPhase('revealed')
   }
 

@@ -173,7 +173,7 @@ export default function App() {
     <div className="game-layout">
       <GuessHistory history={history} />
       <div className="screen game-screen">
-        <ScoreBar round={round} totalRounds={totalRounds} score={score} />
+        <ScoreBar round={round} totalRounds={totalRounds} score={score} elapsed={formatElapsed(elapsedMs)} />
       <PokemonSilhouette src={details.spriteUrl} revealed={answered} correct={isCorrect} wrong={answered && !isCorrect} alt={details.name} />
       {answered && (
         <p className="reveal-name">

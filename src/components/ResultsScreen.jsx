@@ -5,11 +5,12 @@ function message(score) {
   return 'Better luck next time!'
 }
 
-export default function ResultsScreen({ score, maxScore, trainerType, onPlayAgain }) {
+export default function ResultsScreen({ score, maxScore, elapsed, trainerType, onPlayAgain }) {
   return (
     <div className="screen results-screen">
       <h1>Game Over</h1>
       <p className="final-score">{score} / {maxScore}</p>
+      <p className="final-time">Time: {elapsed}</p>
       <p>{message(score)}</p>
       {trainerType && (
         <p className="trainer-type">

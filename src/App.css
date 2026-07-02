@@ -361,6 +361,8 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 
 .final-score { font-size: 2.5rem; font-weight: 800; color: var(--accent); }
 
+.final-time { font-size: 1.1rem; font-weight: 600; opacity: 0.85; margin: 0.25rem 0 0; }
+
 .trainer-type {
   margin: 1.25rem 0;
   padding: 0.9rem 1rem;

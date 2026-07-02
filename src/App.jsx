@@ -150,6 +150,7 @@ export default function App() {
         <ResultsScreen
           score={score}
           maxScore={maxScore}
+          elapsed={formatElapsed(elapsedMs)}
           trainerType={trainerType}
           onPlayAgain={goToStart}
         />

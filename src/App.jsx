@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react'
 import './App.css'
 import { fetchGen1List, fetchPokemonDetails } from './pokeapi'
 import { pickRound, scoreRound, bestType } from './gameLogic'
+import { formatElapsed } from './formatElapsed'
 import StartScreen from './components/StartScreen'
 import ScoreBar from './components/ScoreBar'
 import PokemonSilhouette from './components/PokemonSilhouette'
@@ -24,6 +25,8 @@ export default function App() {
   const [selected, setSelected] = useState(null)
   const [history, setHistory] = useState([]) // [{ round, name, types, spriteUrl, guess, correct, points }]
   const [reviewEntry, setReviewEntry] = useState(null)
+  const [startedAt, setStartedAt] = useState(null)
+  const [elapsedMs, setElapsedMs] = useState(0)
 
   const maxScore = totalRounds * 10
 
@@ -40,6 +43,14 @@ export default function App() {
   useEffect(() => {
     loadPool()
   }, [loadPool])
+
+  useEffect(() => {
+    if (startedAt === null || phase === 'results') return
+    const id = setInterval(() => {
+      setElapsedMs(Date.now() - startedAt)
+    }, 1000)
+    return () => clearInterval(id)
+  }, [startedAt, phase])
 
   const startRound = useCallback(async () => {
     setPhase('loading')
@@ -58,6 +69,8 @@ export default function App() {
     setRound(1)
     setScore(0)
     setHistory([])
+    setStartedAt(Date.now())
+    setElapsedMs(0)
     startRound()
   }
 

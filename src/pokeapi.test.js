@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { spriteUrl, fetchPokemonDetails, fetchGen1List } from './pokeapi'
+import { spriteUrl, fetchPokemonDetails, fetchPokemonRange, DIFFICULTY_LEVELS } from './pokeapi'
 
 afterEach(() => vi.restoreAllMocks())
 
@@ -46,8 +46,8 @@ describe('fetchPokemonDetails', () => {
   })
 })
 
-describe('fetchGen1List', () => {
-  it('returns 151 {id, name} entries with capitalized names', async () => {
+describe('fetchPokemonRange', () => {
+  it('returns {id, name} entries starting at offset+1', async () => {
     const results = Array.from({ length: 151 }, (_, i) => ({
       name: `mon${i + 1}`,
       url: `https://pokeapi.co/api/v2/pokemon/${i + 1}/`,
@@ -57,9 +57,48 @@ describe('fetchGen1List', () => {
       vi.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ results }) }))
     )
 
-    const list = await fetchGen1List()
+    const list = await fetchPokemonRange(0, 151)
     expect(list).toHaveLength(151)
     expect(list[0]).toEqual({ id: 1, name: 'Mon1' })
     expect(list[24]).toEqual({ id: 25, name: 'Mon25' })
+  })
+
+  it('offsets ids for a non-zero offset', async () => {
+    const results = Array.from({ length: 639 }, (_, i) => ({
+      name: `mon${387 + i}`,
+      url: `https://pokeapi.co/api/v2/pokemon/${387 + i}/`,
+    }))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ results }) }))
+    )
+
+    const list = await fetchPokemonRange(386, 639)
+    expect(list).toHaveLength(639)
+    expect(list[0]).toEqual({ id: 387, name: 'Mon387' })
+    expect(list[1]).toEqual({ id: 388, name: 'Mon388' })
+  })
+})
+
+describe('DIFFICULTY_LEVELS', () => {
+  it('defines beginner, advanced, and master with the correct dex ranges', () => {
+    expect(DIFFICULTY_LEVELS.beginner).toEqual({
+      label: 'Beginner Trainer',
+      subtitle: 'Gen 1 · Kanto',
+      offset: 0,
+      limit: 151,
+    })
+    expect(DIFFICULTY_LEVELS.advanced).toEqual({
+      label: 'Advanced Trainer',
+      subtitle: 'Gen 1–3 · Kanto to Hoenn',
+      offset: 0,
+      limit: 386,
+    })
+    expect(DIFFICULTY_LEVELS.master).toEqual({
+      label: 'Master Trainer',
+      subtitle: 'Gen 4–9 · Sinnoh onward',
+      offset: 386,
+      limit: 639,
+    })
   })
 })

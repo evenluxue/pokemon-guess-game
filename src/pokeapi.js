@@ -31,10 +31,16 @@ export async function fetchPokemonDetails(id) {
   }
 }
 
-export async function fetchGen1List() {
-  const data = await getJson(`${API_BASE}/pokemon?limit=151&offset=0`)
+export async function fetchPokemonRange(offset, limit) {
+  const data = await getJson(`${API_BASE}/pokemon?limit=${limit}&offset=${offset}`)
   return data.results.map((entry, index) => ({
-    id: index + 1,
+    id: offset + index + 1,
     name: capitalize(entry.name),
   }))
+}
+
+export const DIFFICULTY_LEVELS = {
+  beginner: { label: 'Beginner Trainer', subtitle: 'Gen 1 · Kanto', offset: 0, limit: 151 },
+  advanced: { label: 'Advanced Trainer', subtitle: 'Gen 1–3 · Kanto to Hoenn', offset: 0, limit: 386 },
+  master: { label: 'Master Trainer', subtitle: 'Gen 4–9 · Sinnoh onward', offset: 386, limit: 639 },
 }

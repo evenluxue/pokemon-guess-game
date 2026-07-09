@@ -255,6 +255,19 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 
 .silhouette.revealed { filter: none; }
 
+.silhouette-error {
+  width: 400px;
+  height: 400px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--text);
+  opacity: 0.5;
+}
+
 /* During tracing only the SVG line is shown; silhouette fades in after. */
 .silhouette.tracing { opacity: 0; }
 

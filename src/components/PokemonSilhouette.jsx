@@ -2,10 +2,11 @@ import { useEffect, useReducer, useRef } from 'react'
 import { extractOutline } from '../outline/extractOutline'
 import { traceDuration } from '../outline/traceDuration'
 
-const PLACEHOLDER =
-  'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect width="200" height="200" fill="%23ccc"/></svg>'
-
 const TIP_SIZE = 12 // length of the travelling sparkle dot in viewBox units
+const MAX_LOAD_RETRIES = 2
+const LOAD_RETRY_DELAY_MS = 800
+
+const INITIAL_STATE = { phase: 'preparing', outline: null, loadAttempt: 0, loadFailed: false }
 
 function prefersReducedMotion() {
   return (
@@ -17,10 +18,12 @@ function prefersReducedMotion() {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'RESET': return { phase: 'preparing', outline: null }
-    case 'FALLBACK': return { phase: 'fallback', outline: null }
-    case 'TRACING': return { phase: 'tracing', outline: action.outline }
+    case 'RESET': return INITIAL_STATE
+    case 'FALLBACK': return { ...state, phase: 'fallback', outline: null }
+    case 'TRACING': return { ...state, phase: 'tracing', outline: action.outline }
     case 'SILHOUETTE': return { ...state, phase: 'silhouette' }
+    case 'RETRY': return { ...state, loadAttempt: state.loadAttempt + 1 }
+    case 'LOAD_FAILED': return { ...state, loadFailed: true }
     default: return state
   }
 }
@@ -28,14 +31,32 @@ function reducer(state, action) {
 // phase: preparing | tracing | silhouette | fallback
 // revealed prop always wins and is derived at render time
 export default function PokemonSilhouette({ src, revealed, correct, wrong, alt }) {
-  const [{ phase, outline }, dispatch] = useReducer(reducer, { phase: 'preparing', outline: null })
+  const [{ phase, outline, loadAttempt, loadFailed }, dispatch] = useReducer(reducer, INITIAL_STATE)
   const pathRef = useRef(null)
   const pathGlowRef = useRef(null)
   const pathTipRef = useRef(null)
+  const retryTimeoutRef = useRef(null)
+
+  // A sprite load can fail transiently (flaky CDN); retry a couple of times
+  // before giving up, so a momentary network blip doesn't strand the player
+  // on a broken image for the rest of the round.
+  function handleImageError() {
+    clearTimeout(retryTimeoutRef.current)
+    if (loadAttempt < MAX_LOAD_RETRIES) {
+      retryTimeoutRef.current = setTimeout(() => {
+        dispatch({ type: 'RETRY' })
+      }, LOAD_RETRY_DELAY_MS)
+    } else {
+      dispatch({ type: 'LOAD_FAILED' })
+    }
+  }
+
+  const displaySrc = loadAttempt === 0 ? src : `${src}?retry=${loadAttempt}`
 
   // Load the sprite CORS-clean and extract its outline whenever src changes.
   useEffect(() => {
     let cancelled = false
+    clearTimeout(retryTimeoutRef.current)
     dispatch({ type: 'RESET' })
 
     if (prefersReducedMotion()) {
@@ -61,6 +82,7 @@ export default function PokemonSilhouette({ src, revealed, correct, wrong, alt }
 
     return () => {
       cancelled = true
+      clearTimeout(retryTimeoutRef.current)
     }
   }, [src])
 
@@ -128,14 +150,18 @@ export default function PokemonSilhouette({ src, revealed, correct, wrong, alt }
 
   return (
     <div className="silhouette-wrap">
-      <img
-        className={imgClass}
-        src={src}
-        alt={revealed ? alt : 'Mystery Pokémon'}
-        onError={(e) => {
-          e.currentTarget.src = PLACEHOLDER
-        }}
-      />
+      {loadFailed ? (
+        <div className="silhouette-error" role="img" aria-label="Image unavailable">
+          ?
+        </div>
+      ) : (
+        <img
+          className={imgClass}
+          src={displaySrc}
+          alt={revealed ? alt : 'Mystery Pokémon'}
+          onError={handleImageError}
+        />
+      )}
       {mode === 'tracing' && outline && (
         <svg
           className="trace-svg"

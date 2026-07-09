@@ -1,7 +1,8 @@
-function message(score) {
-  if (score >= 90) return 'Pokémon Master!'
-  if (score >= 60) return 'Great job, trainer!'
-  if (score >= 30) return 'Keep training!'
+function message(score, maxScore) {
+  const pct = maxScore > 0 ? score / maxScore : 0
+  if (pct >= 0.9) return 'Pokémon Master!'
+  if (pct >= 0.6) return 'Great job, trainer!'
+  if (pct >= 0.3) return 'Keep training!'
   return 'Better luck next time!'
 }
 
@@ -11,7 +12,7 @@ export default function ResultsScreen({ score, maxScore, elapsed, trainerType, o
       <h1>Game Over</h1>
       <p className="final-score">{score} / {maxScore}</p>
       <p className="final-time">Time: {elapsed}</p>
-      <p>{message(score)}</p>
+      <p>{message(score, maxScore)}</p>
       {trainerType && (
         <p className="trainer-type">
           You are the <span>{trainerType}</span>-type Pokémon Trainer!

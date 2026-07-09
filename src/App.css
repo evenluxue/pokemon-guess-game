@@ -384,6 +384,21 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 
 .skip-btn:hover { opacity: 0.9; }
 
+.end-game-btn {
+  display: block;
+  margin: 0.75rem auto 0;
+  background: transparent;
+  border: none;
+  color: var(--wrong);
+  opacity: 0.7;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+.end-game-btn:hover { opacity: 1; }
+
 .hint-list {
   display: flex;
   flex-direction: column;

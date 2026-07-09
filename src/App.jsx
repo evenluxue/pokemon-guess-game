@@ -34,7 +34,7 @@ export default function App() {
   const poolPromiseRef = useRef(null)
   const pendingStartRef = useRef(false)
 
-  const maxScore = totalRounds * 10
+  const maxScore = history.length * 10
 
   const loadPool = useCallback((difficultyKey) => {
     setLoadError(false)
@@ -154,6 +154,19 @@ export default function App() {
     startRound(pool, current.details.name)
   }
 
+  function endGame() {
+    if (history.length === 0) {
+      setPhase('rounds')
+      return
+    }
+    const activeMs = intervalStart === null ? 0 : Date.now() - intervalStart
+    const newAccumulated = accumulatedMs + activeMs
+    setAccumulatedMs(newAccumulated)
+    setElapsedMs(newAccumulated)
+    setIntervalStart(null)
+    setPhase('results')
+  }
+
   function next() {
     if (round >= totalRounds) {
       setPhase('results')
@@ -224,7 +237,14 @@ export default function App() {
   }
 
   if (phase === 'loading' || !current) {
-    return <div className="screen"><p>Loading…</p></div>
+    return (
+      <div className="screen">
+        <p>Loading…</p>
+        <button className="end-game-btn" onClick={endGame}>
+          🏳 End Game
+        </button>
+      </div>
+    )
   }
 
   const { details, options } = current
@@ -260,6 +280,9 @@ export default function App() {
             {round >= totalRounds ? 'See Results' : 'Next'}
           </button>
         )}
+        <button className="end-game-btn" onClick={endGame}>
+          🏳 End Game
+        </button>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { fetchPokemonRange, fetchTypeMap, spriteUrl, DIFFICULTY_LEVELS, TOTAL_POKEMON } from '../pokeapi'
-import { BEGINNER_IDS, ADVANCED_IDS, MASTER_PREVIEW_IDS } from '../pokemonFame'
+import { fetchPokemonRange, fetchTypeMap, spriteUrl, DIFFICULTY_LEVELS } from '../pokeapi'
+import { BEGINNER_IDS, ADVANCED_IDS, MASTER_PREVIEW_IDS, TOTAL_POKEMON } from '../pokemonFame'
 import { rosterPool, groupByType } from '../gameLogic'
 import { NAMES_ZH } from '../pokemonNamesZh'
 

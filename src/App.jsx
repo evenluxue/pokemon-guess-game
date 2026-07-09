@@ -5,6 +5,7 @@ import { BEGINNER_IDS, ADVANCED_IDS, TOTAL_POKEMON } from './pokemonFame'
 import { pickRound, scoreRound, bestType, pickAnswerEntry, poolForDifficulty } from './gameLogic'
 import { formatElapsed } from './formatElapsed'
 import DifficultyScreen from './components/DifficultyScreen'
+import RosterScreen from './components/RosterScreen'
 import StartScreen from './components/StartScreen'
 import ScoreBar from './components/ScoreBar'
 import PokemonSilhouette from './components/PokemonSilhouette'
@@ -17,6 +18,7 @@ import TypeShowcase from './components/TypeShowcase'
 
 export default function App() {
   const [difficulty, setDifficulty] = useState('beginner')
+  const [rosterDifficulty, setRosterDifficulty] = useState(null)
   const [pool, setPool] = useState(null) // [{id, name}]
   const [loadError, setLoadError] = useState(false)
   const [phase, setPhase] = useState('difficulty') // difficulty | rounds | loading | playing | revealed | results
@@ -81,6 +83,11 @@ export default function App() {
     setPool(null)
     loadPool(key)
     setPhase('rounds')
+  }
+
+  function previewRoster(key) {
+    setRosterDifficulty(key)
+    setPhase('roster')
   }
 
   // Retrying after a failed pool fetch: if the failure happened while play()
@@ -194,7 +201,11 @@ export default function App() {
   }
 
   if (phase === 'difficulty') {
-    return <DifficultyScreen onSelect={selectDifficulty} />
+    return <DifficultyScreen onSelect={selectDifficulty} onPreview={previewRoster} />
+  }
+
+  if (phase === 'roster') {
+    return <RosterScreen difficultyKey={rosterDifficulty} onBack={() => setPhase('difficulty')} />
   }
 
   if (phase === 'rounds') {

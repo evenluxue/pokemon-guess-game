@@ -1,5 +1,11 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { spriteUrl, fetchPokemonDetails, fetchPokemonRange, DIFFICULTY_LEVELS } from './pokeapi'
+import {
+  spriteUrl,
+  fetchPokemonDetails,
+  fetchPokemonRange,
+  fetchTypeMap,
+  DIFFICULTY_LEVELS,
+} from './pokeapi'
 
 afterEach(() => vi.restoreAllMocks())
 
@@ -77,6 +83,37 @@ describe('fetchPokemonRange', () => {
     expect(list).toHaveLength(639)
     expect(list[0]).toEqual({ id: 387, name: 'Mon387' })
     expect(list[1]).toEqual({ id: 388, name: 'Mon388' })
+  })
+})
+
+describe('fetchTypeMap', () => {
+  it('builds a name -> types[] map from the /type endpoints, one entry per type per Pokémon', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn((url) => {
+        const type = url.match(/\/type\/(\w+)/)[1]
+        const byType = {
+          grass: ['bulbasaur'],
+          poison: ['bulbasaur'],
+          fire: ['charizard'],
+          flying: ['charizard'],
+        }
+        const names = byType[type] || []
+        return Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              name: type,
+              pokemon: names.map((name) => ({ pokemon: { name } })),
+            }),
+        })
+      })
+    )
+
+    const map = await fetchTypeMap()
+    expect(map.Bulbasaur).toEqual(expect.arrayContaining(['Grass', 'Poison']))
+    expect(map.Bulbasaur).toHaveLength(2)
+    expect(map.Charizard).toEqual(expect.arrayContaining(['Fire', 'Flying']))
   })
 })
 

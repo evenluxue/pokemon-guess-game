@@ -81,24 +81,18 @@ describe('fetchPokemonRange', () => {
 })
 
 describe('DIFFICULTY_LEVELS', () => {
-  it('defines beginner, advanced, and master with the correct dex ranges', () => {
+  it('defines beginner, advanced, and master with label and subtitle', () => {
     expect(DIFFICULTY_LEVELS.beginner).toEqual({
       label: 'Beginner Trainer',
-      subtitle: 'Gen 1 · Kanto',
-      offset: 0,
-      limit: 151,
+      subtitle: 'The famous faces',
     })
     expect(DIFFICULTY_LEVELS.advanced).toEqual({
       label: 'Advanced Trainer',
-      subtitle: 'Gen 1–3 · Kanto to Hoenn',
-      offset: 0,
-      limit: 386,
+      subtitle: 'Solid fan favorites',
     })
     expect(DIFFICULTY_LEVELS.master).toEqual({
       label: 'Master Trainer',
-      subtitle: 'Gen 4–9 · Sinnoh onward',
-      offset: 386,
-      limit: 639,
+      subtitle: 'Deep-cut Pokédex',
     })
   })
 })

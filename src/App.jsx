@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import './App.css'
-import { fetchPokemonRange, fetchPokemonDetails, DIFFICULTY_LEVELS } from './pokeapi'
-import { pickRound, scoreRound, bestType, pickAnswerEntry } from './gameLogic'
+import { fetchPokemonRange, fetchPokemonDetails } from './pokeapi'
+import { BEGINNER_IDS, ADVANCED_IDS, TOTAL_POKEMON } from './pokemonFame'
+import { pickRound, scoreRound, bestType, pickAnswerEntry, poolForDifficulty } from './gameLogic'
 import { formatElapsed } from './formatElapsed'
 import DifficultyScreen from './components/DifficultyScreen'
 import StartScreen from './components/StartScreen'
@@ -37,9 +38,9 @@ export default function App() {
 
   const loadPool = useCallback((difficultyKey) => {
     setLoadError(false)
-    const { offset, limit } = DIFFICULTY_LEVELS[difficultyKey]
-    const promise = fetchPokemonRange(offset, limit)
-      .then((list) => {
+    const promise = fetchPokemonRange(0, TOTAL_POKEMON)
+      .then((allPokemon) => {
+        const list = poolForDifficulty(allPokemon, BEGINNER_IDS, ADVANCED_IDS, difficultyKey)
         setPool(list)
         return list
       })

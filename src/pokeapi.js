@@ -40,7 +40,7 @@ export async function fetchPokemonRange(offset, limit) {
 }
 
 export const DIFFICULTY_LEVELS = {
-  beginner: { label: 'Beginner Trainer', subtitle: 'Gen 1 · Kanto', offset: 0, limit: 151 },
-  advanced: { label: 'Advanced Trainer', subtitle: 'Gen 1–3 · Kanto to Hoenn', offset: 0, limit: 386 },
-  master: { label: 'Master Trainer', subtitle: 'Gen 4–9 · Sinnoh onward', offset: 386, limit: 639 },
+  beginner: { label: 'Beginner Trainer', subtitle: 'The famous faces' },
+  advanced: { label: 'Advanced Trainer', subtitle: 'Solid fan favorites' },
+  master: { label: 'Master Trainer', subtitle: 'Deep-cut Pokédex' },
 }

@@ -8,7 +8,7 @@ describe('StartScreen', () => {
   it('shows the chosen difficulty label and subtitle', () => {
     render(<StartScreen difficulty="advanced" onChangeDifficulty={() => {}} onStart={() => {}} />)
     expect(screen.getByText('Advanced Trainer')).toBeTruthy()
-    expect(screen.getByText(/Gen 1–3/)).toBeTruthy()
+    expect(screen.getByText(/Solid fan favorites/)).toBeTruthy()
   })
 
   it('calls onChangeDifficulty when "Change level" is clicked', () => {

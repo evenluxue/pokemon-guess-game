@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { scoreRound, pickRound, bestType, pickAnswerEntry } from './gameLogic'
+import { scoreRound, pickRound, bestType, pickAnswerEntry, poolForDifficulty } from './gameLogic'
 
 describe('scoreRound', () => {
   it('awards 10 for a correct answer with no hints', () => {
@@ -64,6 +64,33 @@ describe('pickAnswerEntry', () => {
       const entry = pickAnswerEntry(twoEntryPool, 'Bulbasaur')
       expect(entry).toEqual(pool[1])
     }
+  })
+})
+
+describe('poolForDifficulty', () => {
+  const allPokemon = [
+    { id: 1, name: 'Bulbasaur' },
+    { id: 2, name: 'Ivysaur' },
+    { id: 3, name: 'Venusaur' },
+    { id: 4, name: 'Charmander' },
+    { id: 5, name: 'Charmeleon' },
+  ]
+  const beginnerIds = [1, 2]
+  const advancedIds = [3, 4]
+
+  it('returns only the beginner-tier entries for "beginner"', () => {
+    const pool = poolForDifficulty(allPokemon, beginnerIds, advancedIds, 'beginner')
+    expect(pool).toEqual([allPokemon[0], allPokemon[1]])
+  })
+
+  it('returns only the advanced-tier entries for "advanced"', () => {
+    const pool = poolForDifficulty(allPokemon, beginnerIds, advancedIds, 'advanced')
+    expect(pool).toEqual([allPokemon[2], allPokemon[3]])
+  })
+
+  it('returns everything not in beginner or advanced for "master"', () => {
+    const pool = poolForDifficulty(allPokemon, beginnerIds, advancedIds, 'master')
+    expect(pool).toEqual([allPokemon[4]])
   })
 })
 

@@ -17,6 +17,14 @@ export function pickAnswerEntry(pool, excludeName) {
   return candidates[Math.floor(Math.random() * candidates.length)]
 }
 
+export function poolForDifficulty(allPokemon, beginnerIds, advancedIds, difficultyKey) {
+  const beginnerSet = new Set(beginnerIds)
+  const advancedSet = new Set(advancedIds)
+  if (difficultyKey === 'beginner') return allPokemon.filter((p) => beginnerSet.has(p.id))
+  if (difficultyKey === 'advanced') return allPokemon.filter((p) => advancedSet.has(p.id))
+  return allPokemon.filter((p) => !beginnerSet.has(p.id) && !advancedSet.has(p.id))
+}
+
 export function pickRound(pool, answer) {
   const distractors = shuffle(pool.filter((name) => name !== answer)).slice(0, 3)
   const options = shuffle([answer, ...distractors])

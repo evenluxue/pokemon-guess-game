@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import './App.css'
 import { fetchPokemonRange, fetchPokemonDetails, DIFFICULTY_LEVELS } from './pokeapi'
-import { pickRound, scoreRound, bestType } from './gameLogic'
+import { pickRound, scoreRound, bestType, pickAnswerEntry } from './gameLogic'
 import { formatElapsed } from './formatElapsed'
 import DifficultyScreen from './components/DifficultyScreen'
 import StartScreen from './components/StartScreen'
@@ -62,13 +62,13 @@ export default function App() {
   // Takes the pool explicitly instead of reading state: play() may call this
   // right after awaiting a pool fetch that just resolved, and the memoized
   // closure from render time would otherwise still see the pre-fetch (null) pool.
-  const startRound = useCallback(async (activePool) => {
+  const startRound = useCallback(async (activePool, excludeName) => {
     setPhase('loading')
     setHintsUsed(0)
     setSelected(null)
     setIntervalStart(Date.now())
     const names = activePool.map((p) => p.name)
-    const answerEntry = activePool[Math.floor(Math.random() * activePool.length)]
+    const answerEntry = pickAnswerEntry(activePool, excludeName)
     const { options } = pickRound(names, answerEntry.name)
     const details = await fetchPokemonDetails(answerEntry.id)
     setCurrent({ details, options })
@@ -143,6 +143,14 @@ export default function App() {
     setElapsedMs(newAccumulated)
     setIntervalStart(null)
     setPhase('revealed')
+  }
+
+  function skip() {
+    const activeMs = intervalStart === null ? 0 : Date.now() - intervalStart
+    const newAccumulated = accumulatedMs + activeMs
+    setAccumulatedMs(newAccumulated)
+    setElapsedMs(newAccumulated)
+    startRound(pool, current.details.name)
   }
 
   function next() {
@@ -234,6 +242,11 @@ export default function App() {
         </p>
       )}
       <HintPanel hints={buildHints(details)} onGetHint={getHint} disabled={answered || hintsUsed >= 3} />
+      {!answered && (
+        <button className="skip-btn" onClick={skip}>
+          ⏭ Skip this one
+        </button>
+      )}
       <OptionButtons
         options={options}
         answer={details.name}

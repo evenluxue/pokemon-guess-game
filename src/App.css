@@ -369,6 +369,21 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 
 .hint-btn:disabled { opacity: 0.4; cursor: default; }
 
+.skip-btn {
+  display: block;
+  margin: 0.4rem auto 0;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  opacity: 0.6;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+.skip-btn:hover { opacity: 0.9; }
+
 .hint-list {
   display: flex;
   flex-direction: column;

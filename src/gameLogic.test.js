@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest'
-import { scoreRound, pickRound, bestType, pickAnswerEntry, poolForDifficulty } from './gameLogic'
+import {
+  scoreRound,
+  pickRound,
+  bestType,
+  pickAnswerEntry,
+  poolForDifficulty,
+  rosterPool,
+  groupByType,
+} from './gameLogic'
 
 describe('scoreRound', () => {
   it('awards 10 for a correct answer with no hints', () => {
@@ -91,6 +99,60 @@ describe('poolForDifficulty', () => {
   it('returns everything not in beginner or advanced for "master"', () => {
     const pool = poolForDifficulty(allPokemon, beginnerIds, advancedIds, 'master')
     expect(pool).toEqual([allPokemon[4]])
+  })
+})
+
+describe('rosterPool', () => {
+  const allPokemon = [
+    { id: 1, name: 'Bulbasaur' },
+    { id: 2, name: 'Ivysaur' },
+    { id: 3, name: 'Venusaur' },
+    { id: 25, name: 'Pikachu' },
+  ]
+
+  it('returns only entries whose id is in the given list', () => {
+    expect(rosterPool(allPokemon, [1, 25])).toEqual([allPokemon[0], allPokemon[3]])
+  })
+
+  it('returns an empty array when the id list matches nothing', () => {
+    expect(rosterPool(allPokemon, [999])).toEqual([])
+  })
+})
+
+describe('groupByType', () => {
+  const pool = [
+    { id: 1, name: 'Bulbasaur' },
+    { id: 6, name: 'Charizard' },
+    { id: 25, name: 'Pikachu' },
+  ]
+  const typeMap = {
+    Bulbasaur: ['Grass', 'Poison'],
+    Charizard: ['Fire', 'Flying'],
+    Pikachu: ['Electric'],
+  }
+
+  it('groups each entry under every one of its types', () => {
+    const groups = groupByType(pool, typeMap)
+    expect(groups.Grass).toEqual([pool[0]])
+    expect(groups.Poison).toEqual([pool[0]])
+    expect(groups.Fire).toEqual([pool[1]])
+    expect(groups.Flying).toEqual([pool[1]])
+    expect(groups.Electric).toEqual([pool[2]])
+  })
+
+  it('sorts type keys alphabetically', () => {
+    const groups = groupByType(pool, typeMap)
+    expect(Object.keys(groups)).toEqual(['Electric', 'Fire', 'Flying', 'Grass', 'Poison'])
+  })
+
+  it('sorts entries within a type alphabetically by name', () => {
+    const twoGrass = [
+      { id: 1, name: 'Bulbasaur' },
+      { id: 43, name: 'Oddish' },
+    ]
+    const grassTypeMap = { Bulbasaur: ['Grass'], Oddish: ['Grass'] }
+    const groups = groupByType(twoGrass, grassTypeMap)
+    expect(groups.Grass.map((p) => p.name)).toEqual(['Bulbasaur', 'Oddish'])
   })
 })
 

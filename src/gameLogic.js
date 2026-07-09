@@ -25,6 +25,27 @@ export function poolForDifficulty(allPokemon, beginnerIds, advancedIds, difficul
   return allPokemon.filter((p) => !beginnerSet.has(p.id) && !advancedSet.has(p.id))
 }
 
+export function rosterPool(allPokemon, idList) {
+  const idSet = new Set(idList)
+  return allPokemon.filter((p) => idSet.has(p.id))
+}
+
+export function groupByType(pool, typeMap) {
+  const groups = {}
+  for (const entry of pool) {
+    const types = typeMap[entry.name] || []
+    for (const type of types) {
+      if (!groups[type]) groups[type] = []
+      groups[type].push(entry)
+    }
+  }
+  const sorted = {}
+  for (const type of Object.keys(groups).sort()) {
+    sorted[type] = [...groups[type]].sort((a, b) => a.name.localeCompare(b.name))
+  }
+  return sorted
+}
+
 export function pickRound(pool, answer) {
   const distractors = shuffle(pool.filter((name) => name !== answer)).slice(0, 3)
   const options = shuffle([answer, ...distractors])

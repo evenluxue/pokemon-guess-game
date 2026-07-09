@@ -12,6 +12,11 @@ function shuffle(array) {
   return a
 }
 
+export function pickAnswerEntry(pool, excludeName) {
+  const candidates = excludeName ? pool.filter((p) => p.name !== excludeName) : pool
+  return candidates[Math.floor(Math.random() * candidates.length)]
+}
+
 export function pickRound(pool, answer) {
   const distractors = shuffle(pool.filter((name) => name !== answer)).slice(0, 3)
   const options = shuffle([answer, ...distractors])

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { scoreRound, pickRound, bestType } from './gameLogic'
+import { scoreRound, pickRound, bestType, pickAnswerEntry } from './gameLogic'
 
 describe('scoreRound', () => {
   it('awards 10 for a correct answer with no hints', () => {
@@ -43,6 +43,27 @@ describe('pickRound', () => {
   it('only uses names from the pool', () => {
     const { options } = pickRound(pool, 'Pikachu')
     options.forEach((name) => expect(pool).toContain(name))
+  })
+})
+
+describe('pickAnswerEntry', () => {
+  const pool = [
+    { id: 1, name: 'Bulbasaur' },
+    { id: 4, name: 'Charmander' },
+    { id: 7, name: 'Squirtle' },
+  ]
+
+  it('returns an entry from the pool when no exclusion is given', () => {
+    const entry = pickAnswerEntry(pool, null)
+    expect(pool).toContain(entry)
+  })
+
+  it('never returns the excluded entry', () => {
+    const twoEntryPool = [pool[0], pool[1]]
+    for (let i = 0; i < 20; i++) {
+      const entry = pickAnswerEntry(twoEntryPool, 'Bulbasaur')
+      expect(entry).toEqual(pool[1])
+    }
   })
 })
 

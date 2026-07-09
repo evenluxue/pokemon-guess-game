@@ -580,3 +580,83 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+.world-screen { width: min(720px, 100%); text-align: left; }
+.world-screen h1 { text-align: center; }
+
+.world-subtitle { text-align: center; opacity: 0.75; margin-top: -0.5rem; }
+
+.world-section {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.world-section:first-of-type { border-top: none; }
+
+.world-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent);
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem;
+}
+
+.world-title-zh { font-size: 0.9rem; opacity: 0.7; font-weight: 400; margin-left: 0.25rem; }
+
+.world-icon { font-size: 1.3rem; }
+
+.world-text-en { margin: 0 0 0.4rem; }
+.world-text-zh { margin: 0; opacity: 0.8; }
+
+.world-sprite-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.world-sprite-item-wrap { display: flex; align-items: center; gap: 0.5rem; }
+
+.world-arrow { font-size: 1.3rem; color: var(--accent); font-weight: 700; }
+
+.world-sprite-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.4rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.world-sprite-img { width: 56px; height: 56px; object-fit: contain; }
+.world-sprite-name { font-size: 0.7rem; font-weight: 600; }
+.world-sprite-zh { font-size: 0.62rem; opacity: 0.7; }
+
+.pokeball-icon {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #222;
+  background:
+    linear-gradient(#fff, #fff 46%, #222 46%, #222 54%, var(--wrong) 54%, var(--wrong));
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pokeball-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -6px 0 0 -6px;
+  background: #fff;
+  border: 2px solid #222;
+  border-radius: 50%;
+}

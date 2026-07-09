@@ -1,8 +1,9 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import './App.css'
-import { fetchGen1List, fetchPokemonDetails } from './pokeapi'
+import { fetchPokemonRange, fetchPokemonDetails, DIFFICULTY_LEVELS } from './pokeapi'
 import { pickRound, scoreRound, bestType } from './gameLogic'
 import { formatElapsed } from './formatElapsed'
+import DifficultyScreen from './components/DifficultyScreen'
 import StartScreen from './components/StartScreen'
 import ScoreBar from './components/ScoreBar'
 import PokemonSilhouette from './components/PokemonSilhouette'
@@ -14,9 +15,10 @@ import ReviewModal from './components/ReviewModal'
 import TypeShowcase from './components/TypeShowcase'
 
 export default function App() {
+  const [difficulty, setDifficulty] = useState('beginner')
   const [pool, setPool] = useState(null) // [{id, name}]
   const [loadError, setLoadError] = useState(false)
-  const [phase, setPhase] = useState('start') // start | loading | playing | revealed | results
+  const [phase, setPhase] = useState('difficulty') // difficulty | rounds | loading | playing | revealed | results
   const [totalRounds, setTotalRounds] = useState(10)
   const [round, setRound] = useState(1)
   const [score, setScore] = useState(0)
@@ -28,22 +30,26 @@ export default function App() {
   const [accumulatedMs, setAccumulatedMs] = useState(0)
   const [intervalStart, setIntervalStart] = useState(null)
   const [elapsedMs, setElapsedMs] = useState(0)
+  const poolPromiseRef = useRef(null)
+  const pendingStartRef = useRef(false)
 
   const maxScore = totalRounds * 10
 
-  const loadPool = useCallback(async () => {
+  const loadPool = useCallback((difficultyKey) => {
     setLoadError(false)
-    try {
-      const list = await fetchGen1List()
-      setPool(list)
-    } catch {
-      setLoadError(true)
-    }
+    const { offset, limit } = DIFFICULTY_LEVELS[difficultyKey]
+    const promise = fetchPokemonRange(offset, limit)
+      .then((list) => {
+        setPool(list)
+        return list
+      })
+      .catch(() => {
+        setLoadError(true)
+        return null
+      })
+    poolPromiseRef.current = promise
+    return promise
   }, [])
-
-  useEffect(() => {
-    loadPool()
-  }, [loadPool])
 
   useEffect(() => {
     if (intervalStart === null) return
@@ -53,31 +59,61 @@ export default function App() {
     return () => clearInterval(id)
   }, [accumulatedMs, intervalStart])
 
-  const startRound = useCallback(async () => {
+  // Takes the pool explicitly instead of reading state: play() may call this
+  // right after awaiting a pool fetch that just resolved, and the memoized
+  // closure from render time would otherwise still see the pre-fetch (null) pool.
+  const startRound = useCallback(async (activePool) => {
     setPhase('loading')
     setHintsUsed(0)
     setSelected(null)
     setIntervalStart(Date.now())
-    const names = pool.map((p) => p.name)
-    const answerEntry = pool[Math.floor(Math.random() * pool.length)]
+    const names = activePool.map((p) => p.name)
+    const answerEntry = activePool[Math.floor(Math.random() * activePool.length)]
     const { options } = pickRound(names, answerEntry.name)
     const details = await fetchPokemonDetails(answerEntry.id)
     setCurrent({ details, options })
     setPhase('playing')
-  }, [pool])
+  }, [])
 
-  function play(rounds) {
+  function selectDifficulty(key) {
+    setDifficulty(key)
+    setPool(null)
+    loadPool(key)
+    setPhase('rounds')
+  }
+
+  // Retrying after a failed pool fetch: if the failure happened while play()
+  // was already waiting on it (pendingStartRef), resume straight into the
+  // round on success instead of leaving the player stuck on "Loading…".
+  function retryLoad() {
+    loadPool(difficulty).then((list) => {
+      if (list && pendingStartRef.current) {
+        pendingStartRef.current = false
+        startRound(list)
+      }
+    })
+  }
+
+  async function play(rounds) {
     setTotalRounds(rounds)
     setRound(1)
     setScore(0)
     setHistory([])
     setAccumulatedMs(0)
-    startRound()
+    let activePool = pool
+    if (!activePool) {
+      setPhase('loading')
+      pendingStartRef.current = true
+      activePool = await poolPromiseRef.current
+      if (!activePool) return
+    }
+    pendingStartRef.current = false
+    startRound(activePool)
   }
 
   function goToStart() {
     setReviewEntry(null)
-    setPhase('start')
+    setPhase('rounds')
   }
 
   function getHint() {
@@ -114,7 +150,7 @@ export default function App() {
       setPhase('results')
     } else {
       setRound((r) => r + 1)
-      startRound()
+      startRound(pool)
     }
   }
 
@@ -130,13 +166,23 @@ export default function App() {
     return (
       <div className="screen">
         <p>Couldn't load Pokémon.</p>
-        <button className="primary" onClick={loadPool}>Retry</button>
+        <button className="primary" onClick={retryLoad}>Retry</button>
       </div>
     )
   }
 
-  if (phase === 'start') {
-    return <StartScreen onStart={play} />
+  if (phase === 'difficulty') {
+    return <DifficultyScreen onSelect={selectDifficulty} />
+  }
+
+  if (phase === 'rounds') {
+    return (
+      <StartScreen
+        difficulty={difficulty}
+        onChangeDifficulty={() => setPhase('difficulty')}
+        onStart={play}
+      />
+    )
   }
 
   if (phase === 'results') {

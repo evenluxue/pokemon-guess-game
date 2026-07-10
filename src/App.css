@@ -722,54 +722,57 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 }
 
 /* Lesson slideshow */
+/* The slideshow gets a much wider stage than the other tabs so it fills the
+   screen when projected. Overrides the 760px cap from .screen. */
+.lesson-screen { width: min(1180px, 94vw); padding: 2rem; }
 .lesson-slide {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.6rem;
+  gap: 0.7rem;
   padding: 1rem 0.5rem 2rem;
 }
-.lesson-title-zh { font-size: 1.6rem; font-weight: 700; margin: 0; }
-.lesson-title-en { font-size: 1rem; color: #6b7280; margin: 0; font-style: italic; }
-.lesson-body-zh { font-size: 1.1rem; max-width: 46rem; margin: 0.2rem 0 0; }
-.lesson-body-en { font-size: 0.9rem; color: #6b7280; max-width: 46rem; margin: 0; }
+.lesson-title-zh { font-size: 2rem; font-weight: 700; margin: 0; }
+.lesson-title-en { font-size: 1.15rem; color: #6b7280; margin: 0; font-style: italic; }
+.lesson-body-zh { font-size: 1.25rem; max-width: 54rem; margin: 0.2rem 0 0; }
+.lesson-body-en { font-size: 1rem; color: #6b7280; max-width: 54rem; margin: 0; }
 
-.quiz-options { list-style: none; padding: 0; margin: 0.5rem 0; display: grid; gap: 0.5rem; width: min(32rem, 90%); }
+.quiz-options { list-style: none; padding: 0; margin: 0.5rem 0; display: grid; gap: 0.55rem; width: min(44rem, 94%); }
 .quiz-option { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.9rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; }
 .quiz-option.correct { border-color: #22c55e; background: #dcfce7; color: #14532d; }
-.quiz-key { font-weight: 700; }
-.quiz-text-zh { font-size: 1.05rem; }
-.quiz-text-en { font-size: 0.85rem; color: #6b7280; margin-left: auto; }
-.quiz-reveal-btn, .lesson-play-btn { margin-top: 0.6rem; padding: 0.7rem 1.4rem; font-size: 1.05rem; font-weight: 700; border: none; border-radius: 999px; background: #f59e0b; color: #fff; cursor: pointer; }
-.lesson-play-btn { background: #ef4444; font-size: 1.2rem; }
-.quiz-reveal { background: #dcfce7; border-radius: 0.75rem; padding: 0.8rem 1rem; max-width: 40rem; color: #14532d; }
-.quiz-reveal-zh { font-weight: 700; margin: 0 0 0.2rem; }
-.quiz-reveal-en { color: #4b5563; margin: 0; font-size: 0.9rem; }
+.quiz-key { font-weight: 700; font-size: 1.15rem; }
+.quiz-text-zh { font-size: 1.2rem; }
+.quiz-text-en { font-size: 0.95rem; color: #6b7280; margin-left: auto; }
+.quiz-reveal-btn, .lesson-play-btn { margin-top: 0.6rem; padding: 0.75rem 1.6rem; font-size: 1.15rem; font-weight: 700; border: none; border-radius: 999px; background: #f59e0b; color: #fff; cursor: pointer; }
+.lesson-play-btn { background: #ef4444; font-size: 1.35rem; }
+.quiz-reveal { background: #dcfce7; border-radius: 0.75rem; padding: 0.9rem 1.2rem; max-width: 52rem; color: #14532d; }
+.quiz-reveal-zh { font-weight: 700; margin: 0 0 0.2rem; font-size: 1.15rem; }
+.quiz-reveal-en { color: #4b5563; margin: 0; font-size: 0.95rem; }
 
-.lesson-video-frame { width: min(48rem, 92%); aspect-ratio: 16 / 9; margin: 0.4rem 0; }
+.lesson-video-frame { width: min(62rem, 94%); aspect-ratio: 16 / 9; margin: 0.4rem 0; }
 .lesson-video-frame iframe { width: 100%; height: 100%; border: 0; border-radius: 0.75rem; }
 .lesson-video-link { font-size: 0.9rem; color: #2563eb; }
 
-.journey-steps { list-style: none; padding: 0; margin: 0.5rem 0; display: grid; gap: 0.5rem; width: min(40rem, 92%); }
-.journey-step { display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem 0.9rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; text-align: left; }
-.journey-num { font-weight: 800; color: #f59e0b; min-width: 1.4rem; }
-.lesson-step-emoji { font-size: 1.4rem; }
-.journey-step-zh { font-size: 1.05rem; }
-.journey-step-en { font-size: 0.8rem; color: #6b7280; margin-left: auto; }
+.journey-steps { list-style: none; padding: 0; margin: 0.5rem 0; display: grid; gap: 0.6rem; width: min(52rem, 94%); }
+.journey-step { display: flex; align-items: center; gap: 0.9rem; padding: 0.7rem 1.1rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; text-align: left; }
+.journey-num { font-weight: 800; color: #f59e0b; min-width: 1.4rem; font-size: 1.2rem; }
+.lesson-step-emoji { font-size: 1.7rem; }
+.journey-step-zh { font-size: 1.2rem; }
+.journey-step-en { font-size: 0.9rem; color: #6b7280; margin-left: auto; }
 
-.lesson-team { width: 100%; margin-bottom: 0.8rem; }
-.lesson-team.champ { background: #fffbeb; border-radius: 0.75rem; padding: 0.5rem; color: #78350f; }
+.lesson-team { width: 100%; margin-bottom: 1rem; }
+.lesson-team.champ { background: #fffbeb; border-radius: 0.75rem; padding: 0.7rem; color: #78350f; }
 .lesson-team-head { display: flex; align-items: baseline; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
-.lesson-team-region-zh { font-weight: 700; font-size: 1.1rem; }
-.lesson-team-region-en { color: #6b7280; font-size: 0.85rem; }
-.lesson-team-result { font-weight: 700; color: #b45309; }
-.lesson-team-row, .lesson-evo-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 0.3rem; }
-.lesson-evo-chains { display: flex; flex-direction: column; gap: 0.3rem; align-items: center; }
-.lesson-sprite { display: flex; flex-direction: column; align-items: center; width: 5rem; }
-.lesson-sprite-img { width: 4.5rem; height: 4.5rem; object-fit: contain; }
-.lesson-sprite-en { font-size: 0.75rem; }
-.lesson-sprite-zh { font-size: 0.8rem; font-weight: 600; }
+.lesson-team-region-zh { font-weight: 700; font-size: 1.3rem; }
+.lesson-team-region-en { color: #6b7280; font-size: 0.95rem; }
+.lesson-team-result { font-weight: 700; color: #b45309; font-size: 1.05rem; }
+.lesson-team-row, .lesson-evo-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 0.4rem; }
+.lesson-evo-chains { display: flex; flex-direction: column; gap: 0.4rem; align-items: center; }
+.lesson-sprite { display: flex; flex-direction: column; align-items: center; width: 6.5rem; }
+.lesson-sprite-img { width: 6rem; height: 6rem; object-fit: contain; }
+.lesson-sprite-en { font-size: 0.85rem; }
+.lesson-sprite-zh { font-size: 0.95rem; font-weight: 600; }
 
 .lesson-evo-group { margin-bottom: 1rem; }
 .lesson-evo-label-zh { font-weight: 700; margin: 0; }
@@ -778,9 +781,9 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 .lesson-evo-arrow { font-size: 1.4rem; color: #9ca3af; }
 
 /* Eevee radial hub: Eevee in the center, 8 evolutions fanning out on lines */
-.eevee-hub { position: relative; width: 30rem; height: 30rem; max-width: 94vw; margin: 0.5rem auto; }
+.eevee-hub { position: relative; width: 38rem; height: 38rem; max-width: 96vw; margin: 0.5rem auto; }
 .eevee-line {
-  position: absolute; top: 50%; left: 50%; width: 2px; height: 11.5rem;
+  position: absolute; top: 50%; left: 50%; width: 2px; height: 14.5rem;
   margin-left: -1px; background: #94a3b8; transform-origin: 50% 0; z-index: 0;
 }
 .eevee-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; }
@@ -790,10 +793,10 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 }
 .eevee-spoke {
   position: absolute; top: 50%; left: 50%; z-index: 1;
-  transform: translate(-50%, -50%) rotate(var(--a)) translateY(11.5rem) rotate(calc(var(--a) * -1));
+  transform: translate(-50%, -50%) rotate(var(--a)) translateY(14.5rem) rotate(calc(var(--a) * -1));
 }
 
-.lesson-image-img { max-height: 60vh; max-width: 92%; object-fit: contain; border-radius: 0.5rem; }
+.lesson-image-img { max-height: 68vh; max-width: 96%; object-fit: contain; border-radius: 0.5rem; }
 
 .lesson-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
 .lesson-nav-btn { padding: 0.6rem 1.1rem; font-size: 1rem; font-weight: 700; border: none; border-radius: 999px; background: #3b82f6; color: #fff; cursor: pointer; }

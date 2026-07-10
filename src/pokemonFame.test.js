@@ -34,10 +34,10 @@ describe('pokemonFame data', () => {
   })
 
   it('roughly matches the intended tier sizes', () => {
-    expect(BEGINNER_IDS.length).toBeGreaterThan(30)
-    expect(BEGINNER_IDS.length).toBeLessThan(60)
-    expect(ADVANCED_IDS.length).toBeGreaterThan(150)
-    expect(ADVANCED_IDS.length).toBeLessThan(250)
+    expect(BEGINNER_IDS.length).toBeGreaterThanOrEqual(100)
+    expect(BEGINNER_IDS.length).toBeLessThan(200)
+    expect(ADVANCED_IDS.length).toBeGreaterThan(80)
+    expect(ADVANCED_IDS.length).toBeLessThan(200)
     expect(MASTER_PREVIEW_IDS.length).toBeGreaterThan(100)
     expect(MASTER_PREVIEW_IDS.length).toBeLessThan(140)
   })

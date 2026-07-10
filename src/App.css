@@ -737,13 +737,13 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 
 .quiz-options { list-style: none; padding: 0; margin: 0.5rem 0; display: grid; gap: 0.5rem; width: min(32rem, 90%); }
 .quiz-option { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.9rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; }
-.quiz-option.correct { border-color: #22c55e; background: #dcfce7; }
+.quiz-option.correct { border-color: #22c55e; background: #dcfce7; color: #14532d; }
 .quiz-key { font-weight: 700; }
 .quiz-text-zh { font-size: 1.05rem; }
 .quiz-text-en { font-size: 0.85rem; color: #6b7280; margin-left: auto; }
 .quiz-reveal-btn, .lesson-play-btn { margin-top: 0.6rem; padding: 0.7rem 1.4rem; font-size: 1.05rem; font-weight: 700; border: none; border-radius: 999px; background: #f59e0b; color: #fff; cursor: pointer; }
 .lesson-play-btn { background: #ef4444; font-size: 1.2rem; }
-.quiz-reveal { background: #dcfce7; border-radius: 0.75rem; padding: 0.8rem 1rem; max-width: 40rem; }
+.quiz-reveal { background: #dcfce7; border-radius: 0.75rem; padding: 0.8rem 1rem; max-width: 40rem; color: #14532d; }
 .quiz-reveal-zh { font-weight: 700; margin: 0 0 0.2rem; }
 .quiz-reveal-en { color: #4b5563; margin: 0; font-size: 0.9rem; }
 
@@ -759,7 +759,7 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 .journey-step-en { font-size: 0.8rem; color: #6b7280; margin-left: auto; }
 
 .lesson-team { width: 100%; margin-bottom: 0.8rem; }
-.lesson-team.champ { background: #fffbeb; border-radius: 0.75rem; padding: 0.5rem; }
+.lesson-team.champ { background: #fffbeb; border-radius: 0.75rem; padding: 0.5rem; color: #78350f; }
 .lesson-team-head { display: flex; align-items: baseline; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
 .lesson-team-region-zh { font-weight: 700; font-size: 1.1rem; }
 .lesson-team-region-en { color: #6b7280; font-size: 0.85rem; }

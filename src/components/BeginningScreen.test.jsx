@@ -33,4 +33,21 @@ describe('BeginningScreen', () => {
     fireEvent.click(screen.getAllByText('👀 See all Pokémon in this level')[0])
     expect(onPreview).toHaveBeenCalledWith('beginner')
   })
+
+  it('switches to the Lesson tab and shows the opening quiz', () => {
+    render(<BeginningScreen onSelect={() => {}} onPreview={() => {}} />)
+    fireEvent.click(screen.getByText('📣 Lesson'))
+    expect(screen.getByText('你们知道宝可梦最早是从哪里来的吗?')).toBeTruthy()
+  })
+
+  it('lesson Game Time button returns to the Play tab', () => {
+    render(<BeginningScreen onSelect={() => {}} onPreview={() => {}} />)
+    fireEvent.click(screen.getByText('📣 Lesson'))
+    // advance to the final transition slide (14 slides -> 13 next clicks)
+    for (let i = 0; i < 13; i++) {
+      fireEvent.click(screen.getByRole('button', { name: /下一页/ }))
+    }
+    fireEvent.click(screen.getByRole('button', { name: /开始猜猜看|Play Who/ }))
+    expect(screen.getByText('Choose your trainer level.')).toBeTruthy()
+  })
 })

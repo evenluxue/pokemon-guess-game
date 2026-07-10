@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import DifficultyScreen from './DifficultyScreen'
 import WorldIntroScreen from './WorldIntroScreen'
+import LessonScreen from './LessonScreen'
 
 export default function BeginningScreen({ onSelect, onPreview }) {
   const [tab, setTab] = useState('play')
@@ -19,12 +20,16 @@ export default function BeginningScreen({ onSelect, onPreview }) {
         >
           📖 Pokémon World
         </button>
+        <button
+          className={tab === 'lesson' ? 'tab-btn selected' : 'tab-btn'}
+          onClick={() => setTab('lesson')}
+        >
+          📣 Lesson
+        </button>
       </div>
-      {tab === 'play' ? (
-        <DifficultyScreen onSelect={onSelect} onPreview={onPreview} />
-      ) : (
-        <WorldIntroScreen />
-      )}
+      {tab === 'play' && <DifficultyScreen onSelect={onSelect} onPreview={onPreview} />}
+      {tab === 'world' && <WorldIntroScreen />}
+      {tab === 'lesson' && <LessonScreen onStartGame={() => setTab('play')} />}
     </div>
   )
 }

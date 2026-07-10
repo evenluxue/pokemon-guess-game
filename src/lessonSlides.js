@@ -159,6 +159,14 @@ export const LESSON_SLIDES = [
     revealEn: 'Squirtle wins! Water puts out fire, so Water beats Fire. 💧 > 🔥',
   },
   {
+    type: 'image',
+    titleZh: '完整的 18 种属性相克表',
+    titleEn: 'All 18 Types: Full Matchup Chart',
+    src: '/lesson/type-chart-18.jpg',
+    captionZh: '其实一共有 18 种属性，它们互相都有克制关系。不用全记住，多玩几次就熟啦!',
+    captionEn: "There are 18 types in all, and they all beat or lose to one another. No need to memorize — you'll learn them by playing!",
+  },
+  {
     type: 'transition',
     titleZh: '游戏时间!',
     titleEn: 'Game Time!',

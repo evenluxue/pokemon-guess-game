@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { LESSON_SLIDES } from './lessonSlides'
 
 describe('LESSON_SLIDES', () => {
-  it('has 14 slides in the planned order', () => {
-    expect(LESSON_SLIDES).toHaveLength(14)
+  it('has 15 slides in the planned order', () => {
+    expect(LESSON_SLIDES).toHaveLength(15)
     expect(LESSON_SLIDES[0].type).toBe('quiz')
-    expect(LESSON_SLIDES[13].type).toBe('transition')
+    expect(LESSON_SLIDES[14].type).toBe('transition')
   })
 
   it('every slide declares a known type', () => {

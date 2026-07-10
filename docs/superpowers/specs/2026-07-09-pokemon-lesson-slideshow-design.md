@@ -28,6 +28,7 @@
 - **`src/components/LessonScreen.jsx`**(新)— 幻灯片容器。持有 `current` 页码 state，渲染导航条(‹ 上一页 / 下一页 ›)、进度点，监听键盘 ← → 翻页。根据当前 slide 的 `type` 分发到对应的渲染函数/子组件。
 - **`src/lessonSlides.js`**(新)— 幻灯片数据数组。每个 slide 是 `{ type, ...content }`。集中存放文案、视频 ID、路线图步骤、进化链、属性克制数据。
 - **`src/tournamentTeams.js`**(新)— 8 支大赛队伍数据:每只宝可梦 `{ id, nameEn, nameZh }`，每支队伍 `{ regionEn, regionZh, resultEn, resultZh, members[] }`。图片由 `spriteUrl(id)` 生成。
+- **`public/lesson/starters-mega-gigantamax.jpg`**(已下载，640×1001)— 第一代御三家的 Mega 超级进化 + 超极巨化对照图，中文标注现成。本地存放，避免现场热链外部 CDN 失败。
 - **样式** 加到 `src/App.css`(与现有 `.world-*` 等类同风格)。
 
 ### Slide 类型(在 `LessonScreen` 内按 `type` 分发)
@@ -38,9 +39,10 @@
 - `journey` — 训练师成长之旅:编号步骤路线图。
 - `team` — 一张里含 1–3 支队伍，每支队伍一排 6 只立绘 + 战绩标签。
 - `evolution` — 进化链(御三家 + 伊布家族)，用箭头连接立绘。
+- `image` — 满屏单张本地图片 + 标题/说明(用于 Mega & 超极巨化对照图)。
 - `transition` — 「游戏时间」大按钮，调用 `onStartGame`。
 
-## 幻灯片清单 / Slide List(共 13 张)
+## 幻灯片清单 / Slide List(共 14 张)
 
 1. **开场问答** — 「你们知道宝可梦最早是从哪里来的吗?」选项 A.动画片 B.游戏 C.毛绒玩具 D.现实世界 → 点击揭晓 **B. 游戏(1996 Game Boy)**。
 2. **视频** — Game Boy 原版开场(`C19O5xm51dk`)。看看最早的像素宝可梦。
@@ -53,8 +55,9 @@
 9. **队伍 3** — 阿罗拉(🏆 初代冠军) / 世界锦标赛·八大师赛(🏆 世界第一)。
 10. **视频** — 巅峰对决:旅行 25 年后迎战不败冠军丹帝，皮卡丘一锤定音(`sR1hzqn8k5w`)。
 11. **进化链**(evolution)— 御三家:小火龙→火恐龙→喷火龙(会变大变强);伊布家族:1 只伊布可进化成 8 种不同属性形态。
-12. **属性克制问答** — 石头剪刀布:水克火 / 火克草 / 草克水。点击揭晓「小火龙 vs 杰尼龟，谁会赢?」→ 杰尼龟(水克火)。
-13. **游戏时间**(transition)— 大按钮「开始猜猜看 →」,切到 Play tab 进入「Who's That Pokémon」。
+12. **更强大的形态**(image)— 御三家最终形态还能变得更强:**Mega 超级进化**(超级喷火龙 X/Y、超级水箭龟、超级妙蛙花)和 **超极巨化 / Gigantamax**。满屏展示 `public/lesson/starters-mega-gigantamax.jpg`(图中已含中文标注),配一句双语说明。
+13. **属性克制问答** — 石头剪刀布:水克火 / 火克草 / 草克水。点击揭晓「小火龙 vs 杰尼龟，谁会赢?」→ 杰尼龟(水克火)。
+14. **游戏时间**(transition)— 大按钮「开始猜猜看 →」,切到 Play tab 进入「Who's That Pokémon」。
 
 ## 数据 / Data
 

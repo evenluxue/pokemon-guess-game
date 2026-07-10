@@ -129,6 +129,45 @@ function TeamsSlide({ slide }) {
   )
 }
 
+function EvoChains({ chains }) {
+  return (
+    <div className="lesson-evo-chains">
+      {chains.map((chain, ci) => (
+        <div className="lesson-evo-row chain" key={ci}>
+          {chain.map((mon, i) => (
+            <div className="lesson-evo-item" key={mon.id}>
+              {i > 0 && <span className="lesson-evo-arrow">→</span>}
+              <Sprite mon={mon} />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function EeveeHub({ center, members }) {
+  return (
+    <div className="eevee-hub">
+      {members.map((mon, i) => (
+        <div
+          className="eevee-line"
+          key={`line-${mon.id}`}
+          style={{ transform: `rotate(${i * 45}deg)` }}
+        />
+      ))}
+      <div className="eevee-center">
+        <Sprite mon={center} />
+      </div>
+      {members.map((mon, i) => (
+        <div className="eevee-spoke" key={mon.id} style={{ '--a': `${i * 45}deg` }}>
+          <Sprite mon={mon} />
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function EvolutionSlide({ slide }) {
   return (
     <div className="lesson-slide lesson-evolution">
@@ -138,14 +177,11 @@ function EvolutionSlide({ slide }) {
         <div className="lesson-evo-group" key={gi}>
           <p className="lesson-evo-label-zh">{group.titleZh}</p>
           <p className="lesson-evo-label-en">{group.titleEn}</p>
-          <div className={group.arrow ? 'lesson-evo-row chain' : 'lesson-evo-row grid'}>
-            {group.members.map((mon, i) => (
-              <div className="lesson-evo-item" key={mon.id}>
-                {group.arrow && i > 0 && <span className="lesson-evo-arrow">→</span>}
-                <Sprite mon={mon} />
-              </div>
-            ))}
-          </div>
+          {group.layout === 'hub' ? (
+            <EeveeHub center={group.center} members={group.members} />
+          ) : (
+            <EvoChains chains={group.chains} />
+          )}
         </div>
       ))}
     </div>

@@ -99,21 +99,33 @@ export const LESSON_SLIDES = [
     titleEn: 'Evolution: Pokémon Grow Stronger',
     groups: [
       {
-        titleZh: '御三家:小火龙的成长',
-        titleEn: 'Starter: Charmander grows up',
-        arrow: true,
-        members: [
-          { id: 4, nameEn: 'Charmander', nameZh: '小火龙' },
-          { id: 5, nameEn: 'Charmeleon', nameZh: '火恐龙' },
-          { id: 6, nameEn: 'Charizard', nameZh: '喷火龙' },
+        titleZh: '御三家:三位伙伴都会长大变强',
+        titleEn: 'The three starters all grow up',
+        layout: 'chains',
+        chains: [
+          [
+            { id: 1, nameEn: 'Bulbasaur', nameZh: '妙蛙种子' },
+            { id: 2, nameEn: 'Ivysaur', nameZh: '妙蛙草' },
+            { id: 3, nameEn: 'Venusaur', nameZh: '妙蛙花' },
+          ],
+          [
+            { id: 4, nameEn: 'Charmander', nameZh: '小火龙' },
+            { id: 5, nameEn: 'Charmeleon', nameZh: '火恐龙' },
+            { id: 6, nameEn: 'Charizard', nameZh: '喷火龙' },
+          ],
+          [
+            { id: 7, nameEn: 'Squirtle', nameZh: '杰尼龟' },
+            { id: 8, nameEn: 'Wartortle', nameZh: '卡咪龟' },
+            { id: 9, nameEn: 'Blastoise', nameZh: '水箭龟' },
+          ],
         ],
       },
       {
         titleZh: '伊布家族:1 只伊布，8 种进化!',
         titleEn: 'Eevee: one Pokémon, eight evolutions!',
-        arrow: false,
+        layout: 'hub',
+        center: { id: 133, nameEn: 'Eevee', nameZh: '伊布' },
         members: [
-          { id: 133, nameEn: 'Eevee', nameZh: '伊布' },
           { id: 134, nameEn: 'Vaporeon', nameZh: '水伊布' },
           { id: 135, nameEn: 'Jolteon', nameZh: '雷伊布' },
           { id: 136, nameEn: 'Flareon', nameZh: '火伊布' },

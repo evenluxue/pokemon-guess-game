@@ -765,7 +765,7 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 .lesson-team-region-en { color: #6b7280; font-size: 0.85rem; }
 .lesson-team-result { font-weight: 700; color: #b45309; }
 .lesson-team-row, .lesson-evo-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 0.3rem; }
-.lesson-evo-row.grid { max-width: 46rem; }
+.lesson-evo-chains { display: flex; flex-direction: column; gap: 0.3rem; align-items: center; }
 .lesson-sprite { display: flex; flex-direction: column; align-items: center; width: 5rem; }
 .lesson-sprite-img { width: 4.5rem; height: 4.5rem; object-fit: contain; }
 .lesson-sprite-en { font-size: 0.75rem; }
@@ -776,6 +776,22 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 .lesson-evo-label-en { color: #6b7280; font-size: 0.85rem; margin: 0 0 0.3rem; }
 .lesson-evo-item { display: flex; align-items: center; gap: 0.3rem; }
 .lesson-evo-arrow { font-size: 1.4rem; color: #9ca3af; }
+
+/* Eevee radial hub: Eevee in the center, 8 evolutions fanning out on lines */
+.eevee-hub { position: relative; width: 30rem; height: 30rem; max-width: 94vw; margin: 0.5rem auto; }
+.eevee-line {
+  position: absolute; top: 50%; left: 50%; width: 2px; height: 11.5rem;
+  margin-left: -1px; background: #94a3b8; transform-origin: 50% 0; z-index: 0;
+}
+.eevee-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; }
+.eevee-center .lesson-sprite-img {
+  background: radial-gradient(circle, #fef3c7 60%, transparent 70%);
+  border-radius: 50%;
+}
+.eevee-spoke {
+  position: absolute; top: 50%; left: 50%; z-index: 1;
+  transform: translate(-50%, -50%) rotate(var(--a)) translateY(11.5rem) rotate(calc(var(--a) * -1));
+}
 
 .lesson-image-img { max-height: 60vh; max-width: 92%; object-fit: contain; border-radius: 0.5rem; }
 

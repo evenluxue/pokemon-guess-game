@@ -22,8 +22,8 @@ body {
 .screen {
   background: var(--card);
   border-radius: 16px;
-  padding: 2.5rem;
-  width: min(640px, 100%);
+  padding: 2.5rem 1.25rem;
+  width: min(760px, 100%);
   text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -250,7 +250,7 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 .showcase-img { width: 72px; height: 72px; object-fit: contain; }
 .showcase-name { font-size: 0.72rem; text-align: center; }
 
-.roster-screen { width: min(900px, 100%); text-align: left; }
+.roster-screen { width: min(1000px, 100%); text-align: left; }
 .roster-screen h1 { text-align: center; }
 .roster-screen > p { text-align: center; }
 
@@ -609,7 +609,7 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
   to { opacity: 1; }
 }
 
-.world-screen { width: min(720px, 100%); text-align: left; }
+.world-screen { width: min(860px, 100%); text-align: left; }
 .world-screen h1 { text-align: center; }
 
 .world-subtitle { text-align: center; opacity: 0.75; margin-top: -0.5rem; }

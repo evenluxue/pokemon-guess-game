@@ -155,7 +155,7 @@ export const LESSON_SLIDES = [
     type: 'image',
     titleZh: '更强大的形态:Mega 与超极巨化',
     titleEn: 'Even Stronger: Mega & Gigantamax',
-    src: '/lesson/starters-mega-gigantamax.jpg',
+    src: '/lesson/mega-gigantamax-forms.jpg',
     captionZh: '进化之后还能变得更强! 御三家可以「超级进化」(Mega)，也能「超极巨化」变得超级大。',
     captionEn: 'Beyond evolution! The Kanto starters can Mega Evolve and even Gigantamax into giant forms.',
   },

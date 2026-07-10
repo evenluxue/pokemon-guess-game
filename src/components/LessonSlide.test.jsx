@@ -17,6 +17,20 @@ describe('LessonSlide', () => {
     expect(screen.getByText('答案乙')).toBeTruthy()
   })
 
+  it('shows the reveal image only after the answer is revealed, for quiz slides that have one', () => {
+    const slide = {
+      type: 'quiz', qZh: 'Q', qEn: 'Q',
+      options: [{ key: 'A', textZh: '甲', textEn: 'a' }, { key: 'B', textZh: '乙', textEn: 'b' }],
+      answerKey: 'B', revealZh: '答案乙', revealEn: 'answer b',
+      revealImg: '/lesson/champion-celebration.jpg',
+    }
+    const { container } = render(<LessonSlide slide={slide} />)
+    expect(container.querySelector('.quiz-reveal-img')).toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: /揭晓答案|Reveal/ }))
+    const img = container.querySelector('.quiz-reveal-img')
+    expect(img.getAttribute('src')).toBe('/lesson/champion-celebration.jpg')
+  })
+
   it('embeds a YouTube iframe and a fallback link for video slides', () => {
     const slide = { type: 'video', titleZh: '视频', titleEn: 'Video', descZh: '', descEn: '', youtubeId: 'abc123' }
     const { container } = render(<LessonSlide slide={slide} />)

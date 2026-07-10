@@ -38,6 +38,9 @@ function QuizSlide({ slide }) {
         <div className="quiz-reveal">
           <p className="quiz-reveal-zh">{slide.revealZh}</p>
           <p className="quiz-reveal-en">{slide.revealEn}</p>
+          {slide.revealImg && (
+            <img className="quiz-reveal-img" src={slide.revealImg} alt={slide.revealEn} />
+          )}
         </div>
       ) : (
         <button className="quiz-reveal-btn" onClick={() => setRevealed(true)}>

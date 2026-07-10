@@ -124,6 +124,11 @@ export default function App() {
     setPhase('rounds')
   }
 
+  function goHome() {
+    setReviewEntry(null)
+    setPhase('difficulty')
+  }
+
   function getHint() {
     setHintsUsed((n) => Math.min(3, n + 1))
   }
@@ -238,6 +243,7 @@ export default function App() {
           elapsed={formatElapsed(elapsedMs)}
           trainerType={trainerType}
           onPlayAgain={goToStart}
+          onHome={goHome}
         />
         <TypeShowcase type={trainerType} mons={typeMons} />
         {reviewEntry && (

@@ -6,7 +6,7 @@ function message(score, maxScore) {
   return 'Better luck next time!'
 }
 
-export default function ResultsScreen({ score, maxScore, elapsed, trainerType, onPlayAgain }) {
+export default function ResultsScreen({ score, maxScore, elapsed, trainerType, onPlayAgain, onHome }) {
   return (
     <div className="screen results-screen">
       <h1>Game Over</h1>
@@ -20,6 +20,9 @@ export default function ResultsScreen({ score, maxScore, elapsed, trainerType, o
       )}
       <button className="primary" onClick={onPlayAgain}>
         Play Again
+      </button>
+      <button className="link-btn" onClick={onHome}>
+        🏠 Home
       </button>
     </div>
   )

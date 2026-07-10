@@ -17,17 +17,15 @@ describe('LessonSlide', () => {
     expect(screen.getByText('答案乙')).toBeTruthy()
   })
 
-  it('shows the reveal image only after the answer is revealed, for quiz slides that have one', () => {
+  it('shows an illustrative image on quiz slides immediately, not gated behind reveal', () => {
     const slide = {
       type: 'quiz', qZh: 'Q', qEn: 'Q',
       options: [{ key: 'A', textZh: '甲', textEn: 'a' }, { key: 'B', textZh: '乙', textEn: 'b' }],
       answerKey: 'B', revealZh: '答案乙', revealEn: 'answer b',
-      revealImg: '/lesson/champion-celebration.jpg',
+      img: '/lesson/champion-celebration.jpg',
     }
     const { container } = render(<LessonSlide slide={slide} />)
-    expect(container.querySelector('.quiz-reveal-img')).toBeNull()
-    fireEvent.click(screen.getByRole('button', { name: /揭晓答案|Reveal/ }))
-    const img = container.querySelector('.quiz-reveal-img')
+    const img = container.querySelector('.quiz-img')
     expect(img.getAttribute('src')).toBe('/lesson/champion-celebration.jpg')
   })
 

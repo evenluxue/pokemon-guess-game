@@ -22,6 +22,7 @@ function QuizSlide({ slide }) {
     <div className="lesson-slide lesson-quiz">
       <h2 className="lesson-title-zh">{slide.qZh}</h2>
       <p className="lesson-title-en">{slide.qEn}</p>
+      {slide.img && <img className="quiz-img" src={slide.img} alt={slide.qEn} />}
       <ul className="quiz-options">
         {slide.options.map((opt) => (
           <li
@@ -38,9 +39,6 @@ function QuizSlide({ slide }) {
         <div className="quiz-reveal">
           <p className="quiz-reveal-zh">{slide.revealZh}</p>
           <p className="quiz-reveal-en">{slide.revealEn}</p>
-          {slide.revealImg && (
-            <img className="quiz-reveal-img" src={slide.revealImg} alt={slide.revealEn} />
-          )}
         </div>
       ) : (
         <button className="quiz-reveal-btn" onClick={() => setRevealed(true)}>

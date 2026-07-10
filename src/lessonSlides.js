@@ -78,7 +78,7 @@ export const LESSON_SLIDES = [
     answerKey: 'C',
     revealZh: '一共 8 次! 前 6 次都失败了，但他从来没有放弃 —— 这就是最厉害的地方!',
     revealEn: 'Eight times! He lost the first six, but he never gave up — that is what makes him a champion.',
-    revealImg: '/lesson/champion-celebration.jpg',
+    img: '/lesson/champion-celebration.jpg',
   },
   {
     type: 'teams',

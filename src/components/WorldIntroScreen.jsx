@@ -1,6 +1,90 @@
 import { spriteUrl } from '../pokeapi'
 import { NAMES_ZH } from '../pokemonNamesZh'
 
+// Character art credit: reference descriptions adapted from
+// https://www.pokemongjd.com/anime-pokemon-chara.html
+const CHARACTERS = [
+  {
+    key: 'ash',
+    img: '/trainers/ash.png',
+    nameEn: 'Ash Ketchum',
+    nameZh: '小智',
+    bioEn:
+      "The hero of our story — a boy chasing his dream of becoming the world's greatest Pokémon Master, always by Pikachu's side.",
+    bioZh: '故事的主人公！以成为世界第一宝可梦大师为目标的少年，身边永远有皮卡丘相伴。',
+  },
+  {
+    key: 'misty',
+    img: '/trainers/misty.png',
+    nameEn: 'Misty',
+    nameZh: '小霞',
+    bioEn: 'A Gym Leader from Cerulean City and a Water-type Pokémon expert.',
+    bioZh: '来自华蓝市的道馆馆主，擅长使用水系宝可梦的训练家。',
+  },
+  {
+    key: 'brock',
+    img: '/trainers/brock.png',
+    nameEn: 'Brock',
+    nameZh: '小刚',
+    bioEn:
+      'Former Leader of Pewter Gym and a Rock-type specialist, who also takes great care of his many little siblings.',
+    bioZh: '前尼比道馆馆主，擅长岩石系宝可梦，同时还要照顾家里的一大群弟弟妹妹。',
+  },
+  {
+    key: 'tracey',
+    img: '/trainers/tracey.png',
+    nameEn: 'Tracey Sketchit',
+    nameZh: '小建',
+    bioEn:
+      "A Pokémon watcher who loves observing and sketching Pokémon, and later becomes Professor Oak's assistant.",
+    bioZh: '喜欢观察和描绘宝可梦的宝可梦观察家，后来成为大木博士的助手。',
+  },
+  {
+    key: 'team-rocket',
+    img: '/trainers/team-rocket.png',
+    nameEn: 'Team Rocket',
+    nameZh: '火箭队',
+    bioEn:
+      'Jessie, James, and Meowth — a trio of mischief-makers always scheming to steal Pikachu (it never works out for them!).',
+    bioZh: '由武藏、小次郎和喵喵组成的三人组，总想着偷走皮卡丘——不过从来没有成功过！',
+  },
+  {
+    key: 'professor-oak',
+    img: '/trainers/professor-oak.png',
+    nameEn: 'Professor Oak',
+    nameZh: '大木博士',
+    bioEn:
+      'A leading Pokémon researcher who gives new Trainers their very first Pokémon and Pokédex.',
+    bioZh: '知名的宝可梦研究学者，会将第一只宝可梦和图鉴交给踏上旅程的训练师。',
+  },
+  {
+    key: 'gary',
+    img: '/trainers/gary.png',
+    nameEn: 'Gary Oak',
+    nameZh: '小茂',
+    bioEn:
+      "Professor Oak's grandson and Ash's childhood rival, always racing to become a better Trainer first.",
+    bioZh: '大木博士的孙子，也是小智从小到大的劲敌，总想抢先成为更厉害的训练师。',
+  },
+  {
+    key: 'officer-jenny',
+    img: '/trainers/officer-jenny.png',
+    nameEn: 'Officer Jenny',
+    nameZh: '乔妮警官',
+    bioEn:
+      "A police officer keeping every Pokémon town safe — you'll meet many Jennys on your journey, they're all related!",
+    bioZh: '守护着宝可梦小镇治安的警官。旅途中你会遇到很多位乔妮警官，她们其实都是一家人！',
+  },
+  {
+    key: 'nurse-joy',
+    img: '/trainers/nurse-joy.png',
+    nameEn: 'Nurse Joy',
+    nameZh: '乔伊护士',
+    bioEn: 'The kind nurse at the Pokémon Center who heals tired and injured Pokémon back to full health.',
+    bioZh: '宝可梦中心里温柔的护士，专门为疲惫或受伤的宝可梦恢复健康。',
+  },
+]
+
 const SECTIONS = [
   {
     key: 'trainers',
@@ -8,10 +92,10 @@ const SECTIONS = [
     titleEn: 'Trainers',
     titleZh: '训练师',
     textEn:
-      "A Trainer travels the world with their Pokémon partners — battling, learning, and growing together. Ash Ketchum is the most famous Trainer of all, always at Pikachu's side.",
+      "Every journey starts with a Trainer and their Pokémon partners, learning and growing together. Here are some familiar faces you'll meet along the way!",
     textZh:
-      '训练师带着自己的宝可梦伙伴环游世界——一起战斗、学习、共同成长。小智是最有名的训练师，身边总有皮卡丘的陪伴。',
-    sprites: [{ id: 25, name: 'Pikachu' }],
+      '每一段旅程都从训练师和他们的宝可梦伙伴开始，一起学习、共同成长。来认识一些你会在旅途中遇到的熟悉面孔吧！',
+    characters: CHARACTERS,
   },
   {
     key: 'pokeballs',
@@ -100,6 +184,22 @@ export default function WorldIntroScreen() {
           </h2>
           <p className="world-text-en">{section.textEn}</p>
           <p className="world-text-zh">{section.textZh}</p>
+          {section.characters && (
+            <div className="character-grid">
+              {section.characters.map((c) => (
+                <div className="character-card" key={c.key}>
+                  <img className="character-img" src={c.img} alt={c.nameEn} />
+                  <div className="character-info">
+                    <p className="character-name">
+                      {c.nameEn} <span className="character-name-zh">{c.nameZh}</span>
+                    </p>
+                    <p className="character-bio-en">{c.bioEn}</p>
+                    <p className="character-bio-zh">{c.bioZh}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           {section.sprites && (
             <div className="world-sprite-row">
               {section.sprites.map((mon, i) => (

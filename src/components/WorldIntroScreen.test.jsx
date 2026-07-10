@@ -32,4 +32,14 @@ describe('WorldIntroScreen', () => {
     expect(screen.getAllByAltText('Charizard').length).toBeGreaterThan(0)
     expect(screen.getAllByText('→').length).toBeGreaterThan(0)
   })
+
+  it('shows the main cast of characters in the Trainers section', () => {
+    render(<WorldIntroScreen />)
+    expect(screen.getByAltText('Ash Ketchum')).toBeTruthy()
+    expect(screen.getByAltText('Misty')).toBeTruthy()
+    expect(screen.getByAltText('Brock')).toBeTruthy()
+    expect(screen.getByAltText('Team Rocket')).toBeTruthy()
+    expect(screen.getByAltText('Professor Oak')).toBeTruthy()
+    expect(screen.getByText('小智')).toBeTruthy()
+  })
 })

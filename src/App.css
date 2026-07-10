@@ -664,6 +664,38 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 .world-sprite-name { font-size: 0.7rem; font-weight: 600; }
 .world-sprite-zh { font-size: 0.62rem; opacity: 0.7; }
 
+.character-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.character-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.character-img { width: 130px; height: 130px; object-fit: contain; flex-shrink: 0; }
+
+.character-info { text-align: left; }
+
+.character-name { margin: 0 0 0.3rem; font-weight: 700; font-size: 1.05rem; }
+.character-name-zh { font-weight: 400; opacity: 0.75; font-size: 0.9rem; }
+
+.character-bio-en { margin: 0 0 0.3rem; font-size: 0.85rem; opacity: 0.9; }
+.character-bio-zh { margin: 0; font-size: 0.8rem; opacity: 0.7; }
+
+@media (max-width: 520px) {
+  .character-card { flex-direction: column; text-align: center; }
+  .character-info { text-align: center; }
+}
+
 .pokeball-icon {
   display: inline-block;
   width: 28px;

@@ -70,6 +70,23 @@ describe('LessonSlide', () => {
     expect(container.querySelectorAll('.eevee-spoke')).toHaveLength(2)
   })
 
+  it('lists open-ended discussion questions for discuss slides', () => {
+    const slide = {
+      type: 'discuss',
+      titleZh: '标题', titleEn: 'Title',
+      promptZh: '提示', promptEn: 'Prompt',
+      questions: [
+        { zh: '问题一', en: 'Question one' },
+        { zh: '问题二', en: 'Question two' },
+      ],
+    }
+    render(<LessonSlide slide={slide} />)
+    expect(screen.getByText('问题一')).toBeTruthy()
+    expect(screen.getByText('Question one')).toBeTruthy()
+    expect(screen.getByText('问题二')).toBeTruthy()
+    expect(screen.getByText('Question two')).toBeTruthy()
+  })
+
   it('fires onStartGame from the transition slide button', () => {
     const onStartGame = vi.fn()
     const slide = { type: 'transition', titleZh: '游戏', titleEn: 'Game', bodyZh: '', bodyEn: '', buttonZh: '开始', buttonEn: 'Play' }

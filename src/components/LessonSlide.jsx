@@ -87,6 +87,26 @@ function InfoSlide({ slide }) {
   )
 }
 
+function DiscussSlide({ slide }) {
+  return (
+    <div className="lesson-slide lesson-discuss">
+      <h2 className="lesson-title-zh">{slide.titleZh}</h2>
+      <p className="lesson-title-en">{slide.titleEn}</p>
+      <p className="lesson-body-zh">{slide.promptZh}</p>
+      <p className="lesson-body-en">{slide.promptEn}</p>
+      <ul className="discuss-questions">
+        {slide.questions.map((q, i) => (
+          <li className="discuss-question" key={i}>
+            <span className="discuss-q-icon" aria-hidden="true">💬</span>
+            <span className="discuss-q-zh">{q.zh}</span>
+            <span className="discuss-q-en">{q.en}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 function JourneySlide({ slide }) {
   return (
     <div className="lesson-slide lesson-journey">
@@ -220,6 +240,8 @@ export default function LessonSlide({ slide, onStartGame }) {
       return <QuizSlide slide={slide} />
     case 'video':
       return <VideoSlide slide={slide} />
+    case 'discuss':
+      return <DiscussSlide slide={slide} />
     case 'info':
       return <InfoSlide slide={slide} />
     case 'journey':

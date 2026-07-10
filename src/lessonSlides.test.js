@@ -2,17 +2,25 @@ import { describe, it, expect } from 'vitest'
 import { LESSON_SLIDES } from './lessonSlides'
 
 describe('LESSON_SLIDES', () => {
-  it('has 15 slides in the planned order', () => {
-    expect(LESSON_SLIDES).toHaveLength(15)
+  it('has 16 slides in the planned order', () => {
+    expect(LESSON_SLIDES).toHaveLength(16)
     expect(LESSON_SLIDES[0].type).toBe('quiz')
-    expect(LESSON_SLIDES[14].type).toBe('transition')
+    expect(LESSON_SLIDES[15].type).toBe('transition')
   })
 
   it('every slide declares a known type', () => {
-    const known = new Set(['quiz', 'video', 'info', 'journey', 'teams', 'evolution', 'image', 'transition'])
+    const known = new Set(['quiz', 'video', 'info', 'journey', 'teams', 'evolution', 'image', 'transition', 'discuss'])
     for (const slide of LESSON_SLIDES) {
       expect(known.has(slide.type)).toBe(true)
     }
+  })
+
+  it('follows the "Ash meets Pikachu" video with a discussion slide', () => {
+    const videoIndex = LESSON_SLIDES.findIndex((s) => s.titleZh === '小智第一次遇见皮卡丘')
+    expect(videoIndex).toBeGreaterThan(-1)
+    const next = LESSON_SLIDES[videoIndex + 1]
+    expect(next.type).toBe('discuss')
+    expect(next.questions.length).toBeGreaterThanOrEqual(2)
   })
 
   it('splits the 8 teams across the three team slides', () => {

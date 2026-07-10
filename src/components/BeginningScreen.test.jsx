@@ -43,8 +43,8 @@ describe('BeginningScreen', () => {
   it('lesson Game Time button returns to the Play tab', () => {
     render(<BeginningScreen onSelect={() => {}} onPreview={() => {}} />)
     fireEvent.click(screen.getByText('📣 Lesson'))
-    // advance to the final transition slide (15 slides -> 14 next clicks)
-    for (let i = 0; i < 14; i++) {
+    // advance to the final transition slide (16 slides -> 15 next clicks)
+    for (let i = 0; i < 15; i++) {
       fireEvent.click(screen.getByRole('button', { name: /下一页/ }))
     }
     fireEvent.click(screen.getByRole('button', { name: /开始猜猜看|Play Who/ }))

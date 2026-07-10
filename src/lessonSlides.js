@@ -41,6 +41,17 @@ export const LESSON_SLIDES = [
     youtubeId: 'xfnYDn4zrYk',
   },
   {
+    type: 'discuss',
+    titleZh: '看看你观察到了什么?',
+    titleEn: 'What Did You Notice?',
+    promptZh: '视频看完啦，一起来聊聊吧!',
+    promptEn: "Now that you've watched the video, let's talk about it!",
+    questions: [
+      { zh: '你们在视频里看到了什么?', en: 'What did you see in the video?' },
+      { zh: '小智是怎么遇见皮卡丘的?', en: 'How did Ash meet Pikachu?' },
+    ],
+  },
+  {
     type: 'journey',
     titleZh: '训练师的成长之旅',
     titleEn: "A Trainer's Journey",

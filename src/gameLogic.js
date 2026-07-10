@@ -12,8 +12,16 @@ function shuffle(array) {
   return a
 }
 
-export function pickAnswerEntry(pool, excludeName) {
-  const candidates = excludeName ? pool.filter((p) => p.name !== excludeName) : pool
+// `exclude` may be a single name, an array of names, or a Set of names. Any
+// pooled entry whose name is excluded is skipped. If excluding leaves no
+// candidates (e.g. more rounds than Pokémon), it falls back to the full pool.
+export function pickAnswerEntry(pool, exclude) {
+  const excludeSet =
+    exclude instanceof Set
+      ? exclude
+      : new Set(Array.isArray(exclude) ? exclude : exclude ? [exclude] : [])
+  let candidates = pool.filter((p) => !excludeSet.has(p.name))
+  if (candidates.length === 0) candidates = pool
   return candidates[Math.floor(Math.random() * candidates.length)]
 }
 

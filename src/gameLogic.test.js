@@ -73,6 +73,27 @@ describe('pickAnswerEntry', () => {
       expect(entry).toEqual(pool[1])
     }
   })
+
+  it('excludes every name in a Set (no repeats within a session)', () => {
+    const exclude = new Set(['Bulbasaur', 'Charmander'])
+    for (let i = 0; i < 20; i++) {
+      const entry = pickAnswerEntry(pool, exclude)
+      expect(entry).toEqual(pool[2]) // only Squirtle remains
+    }
+  })
+
+  it('excludes names given as an array', () => {
+    for (let i = 0; i < 20; i++) {
+      const entry = pickAnswerEntry(pool, ['Charmander', 'Squirtle'])
+      expect(entry).toEqual(pool[0])
+    }
+  })
+
+  it('falls back to the full pool when exclusion would leave nothing', () => {
+    const exclude = new Set(['Bulbasaur', 'Charmander', 'Squirtle'])
+    const entry = pickAnswerEntry(pool, exclude)
+    expect(pool).toContain(entry)
+  })
 })
 
 describe('poolForDifficulty', () => {

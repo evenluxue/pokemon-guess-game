@@ -35,6 +35,11 @@ export default function App() {
   const [elapsedMs, setElapsedMs] = useState(0)
   const poolPromiseRef = useRef(null)
   const pendingStartRef = useRef(false)
+  // Names already shown as the answer this session, and those from the session
+  // just before it — used to avoid repeating Pokémon within a game and between
+  // two adjacent games.
+  const usedNamesRef = useRef(new Set())
+  const prevSessionNamesRef = useRef(new Set())
 
   const maxScore = history.length * 10
 
@@ -65,13 +70,19 @@ export default function App() {
   // Takes the pool explicitly instead of reading state: play() may call this
   // right after awaiting a pool fetch that just resolved, and the memoized
   // closure from render time would otherwise still see the pre-fetch (null) pool.
-  const startRound = useCallback(async (activePool, excludeName) => {
+  const startRound = useCallback(async (activePool) => {
     setPhase('loading')
     setHintsUsed(0)
     setSelected(null)
     setIntervalStart(Date.now())
     const names = activePool.map((p) => p.name)
-    const answerEntry = pickAnswerEntry(activePool, excludeName)
+    // Prefer excluding both this session's and the previous session's answers;
+    // if the pool is too small to leave any choice, drop the previous-session
+    // constraint so we at least never repeat within this game.
+    let exclude = new Set([...usedNamesRef.current, ...prevSessionNamesRef.current])
+    if (activePool.length - exclude.size < 1) exclude = new Set(usedNamesRef.current)
+    const answerEntry = pickAnswerEntry(activePool, exclude)
+    usedNamesRef.current.add(answerEntry.name)
     const { options } = pickRound(names, answerEntry.name)
     const details = await fetchPokemonDetails(answerEntry.id)
     setCurrent({ details, options })
@@ -108,6 +119,10 @@ export default function App() {
     setScore(0)
     setHistory([])
     setAccumulatedMs(0)
+    // Rotate sessions: the game that just finished becomes the "previous"
+    // session, so this new game avoids repeating its Pokémon.
+    prevSessionNamesRef.current = usedNamesRef.current
+    usedNamesRef.current = new Set()
     let activePool = pool
     if (!activePool) {
       setPhase('loading')
@@ -163,7 +178,8 @@ export default function App() {
     const newAccumulated = accumulatedMs + activeMs
     setAccumulatedMs(newAccumulated)
     setElapsedMs(newAccumulated)
-    startRound(pool, current.details.name)
+    // The skipped Pokémon is already recorded in usedNamesRef, so it won't recur.
+    startRound(pool)
   }
 
   function endGame() {

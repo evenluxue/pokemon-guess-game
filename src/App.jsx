@@ -4,7 +4,7 @@ import { fetchPokemonRange, fetchPokemonDetails } from './pokeapi'
 import { BEGINNER_IDS, ADVANCED_IDS, TOTAL_POKEMON } from './pokemonFame'
 import { pickRound, scoreRound, bestType, pickAnswerEntry, poolForDifficulty } from './gameLogic'
 import { formatElapsed } from './formatElapsed'
-import DifficultyScreen from './components/DifficultyScreen'
+import BeginningScreen from './components/BeginningScreen'
 import RosterScreen from './components/RosterScreen'
 import StartScreen from './components/StartScreen'
 import ScoreBar from './components/ScoreBar'
@@ -201,7 +201,7 @@ export default function App() {
   }
 
   if (phase === 'difficulty') {
-    return <DifficultyScreen onSelect={selectDifficulty} onPreview={previewRoster} />
+    return <BeginningScreen onSelect={selectDifficulty} onPreview={previewRoster} />
   }
 
   if (phase === 'roster') {

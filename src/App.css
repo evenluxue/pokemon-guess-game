@@ -720,3 +720,68 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
   border: 2px solid #222;
   border-radius: 50%;
 }
+
+/* Lesson slideshow */
+.lesson-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.6rem;
+  padding: 1rem 0.5rem 2rem;
+}
+.lesson-title-zh { font-size: 1.6rem; font-weight: 700; margin: 0; }
+.lesson-title-en { font-size: 1rem; color: #6b7280; margin: 0; font-style: italic; }
+.lesson-body-zh { font-size: 1.1rem; max-width: 46rem; margin: 0.2rem 0 0; }
+.lesson-body-en { font-size: 0.9rem; color: #6b7280; max-width: 46rem; margin: 0; }
+
+.quiz-options { list-style: none; padding: 0; margin: 0.5rem 0; display: grid; gap: 0.5rem; width: min(32rem, 90%); }
+.quiz-option { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.9rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; }
+.quiz-option.correct { border-color: #22c55e; background: #dcfce7; }
+.quiz-key { font-weight: 700; }
+.quiz-text-zh { font-size: 1.05rem; }
+.quiz-text-en { font-size: 0.85rem; color: #6b7280; margin-left: auto; }
+.quiz-reveal-btn, .lesson-play-btn { margin-top: 0.6rem; padding: 0.7rem 1.4rem; font-size: 1.05rem; font-weight: 700; border: none; border-radius: 999px; background: #f59e0b; color: #fff; cursor: pointer; }
+.lesson-play-btn { background: #ef4444; font-size: 1.2rem; }
+.quiz-reveal { background: #dcfce7; border-radius: 0.75rem; padding: 0.8rem 1rem; max-width: 40rem; }
+.quiz-reveal-zh { font-weight: 700; margin: 0 0 0.2rem; }
+.quiz-reveal-en { color: #4b5563; margin: 0; font-size: 0.9rem; }
+
+.lesson-video-frame { width: min(48rem, 92%); aspect-ratio: 16 / 9; margin: 0.4rem 0; }
+.lesson-video-frame iframe { width: 100%; height: 100%; border: 0; border-radius: 0.75rem; }
+.lesson-video-link { font-size: 0.9rem; color: #2563eb; }
+
+.journey-steps { list-style: none; padding: 0; margin: 0.5rem 0; display: grid; gap: 0.5rem; width: min(40rem, 92%); }
+.journey-step { display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem 0.9rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; text-align: left; }
+.journey-num { font-weight: 800; color: #f59e0b; min-width: 1.4rem; }
+.lesson-step-emoji { font-size: 1.4rem; }
+.journey-step-zh { font-size: 1.05rem; }
+.journey-step-en { font-size: 0.8rem; color: #6b7280; margin-left: auto; }
+
+.lesson-team { width: 100%; margin-bottom: 0.8rem; }
+.lesson-team.champ { background: #fffbeb; border-radius: 0.75rem; padding: 0.5rem; }
+.lesson-team-head { display: flex; align-items: baseline; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
+.lesson-team-region-zh { font-weight: 700; font-size: 1.1rem; }
+.lesson-team-region-en { color: #6b7280; font-size: 0.85rem; }
+.lesson-team-result { font-weight: 700; color: #b45309; }
+.lesson-team-row, .lesson-evo-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 0.3rem; }
+.lesson-evo-row.grid { max-width: 46rem; }
+.lesson-sprite { display: flex; flex-direction: column; align-items: center; width: 5rem; }
+.lesson-sprite-img { width: 4.5rem; height: 4.5rem; object-fit: contain; }
+.lesson-sprite-en { font-size: 0.75rem; }
+.lesson-sprite-zh { font-size: 0.8rem; font-weight: 600; }
+
+.lesson-evo-group { margin-bottom: 1rem; }
+.lesson-evo-label-zh { font-weight: 700; margin: 0; }
+.lesson-evo-label-en { color: #6b7280; font-size: 0.85rem; margin: 0 0 0.3rem; }
+.lesson-evo-item { display: flex; align-items: center; gap: 0.3rem; }
+.lesson-evo-arrow { font-size: 1.4rem; color: #9ca3af; }
+
+.lesson-image-img { max-height: 60vh; max-width: 92%; object-fit: contain; border-radius: 0.5rem; }
+
+.lesson-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
+.lesson-nav-btn { padding: 0.6rem 1.1rem; font-size: 1rem; font-weight: 700; border: none; border-radius: 999px; background: #3b82f6; color: #fff; cursor: pointer; }
+.lesson-nav-btn:disabled { background: #cbd5e1; cursor: default; }
+.lesson-progress { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; }
+.lesson-dot { width: 0.55rem; height: 0.55rem; border-radius: 999px; background: #d1d5db; }
+.lesson-dot.active { background: #f59e0b; }

@@ -187,5 +187,8 @@ export const LESSON_SLIDES = [
     bodyEn: "Now you know evolution, types, and Ash's story — let's play Who's That Pokémon!",
     buttonZh: '开始猜猜看',
     buttonEn: "Play Who's That Pokémon",
+    cheatsheetHref: '/pokemon-cheatsheet.html',
+    cheatsheetZh: '打印速查表(50 只宝可梦)',
+    cheatsheetEn: 'Printable cheat sheet (50 Pokémon)',
   },
 ]

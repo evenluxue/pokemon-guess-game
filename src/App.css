@@ -807,6 +807,9 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 
 .lesson-image-img { max-height: 68vh; max-width: 96%; object-fit: contain; border-radius: 0.5rem; }
 
+.lesson-cheatsheet-link { margin-top: 0.9rem; font-size: 1rem; font-weight: 700; color: #2563eb; text-decoration: underline; }
+.lesson-cheatsheet-link:hover { color: #1d4ed8; }
+
 .lesson-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
 .lesson-nav-btn { padding: 0.6rem 1.1rem; font-size: 1rem; font-weight: 700; border: none; border-radius: 999px; background: #3b82f6; color: #fff; cursor: pointer; }
 .lesson-nav-btn:disabled { background: #cbd5e1; cursor: default; }

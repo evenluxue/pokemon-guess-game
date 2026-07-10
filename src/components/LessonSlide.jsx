@@ -232,6 +232,16 @@ function TransitionSlide({ slide, onStartGame }) {
       <button className="lesson-play-btn" onClick={onStartGame}>
         {slide.buttonZh} · {slide.buttonEn} →
       </button>
+      {slide.cheatsheetHref && (
+        <a
+          className="lesson-cheatsheet-link"
+          href={slide.cheatsheetHref}
+          target="_blank"
+          rel="noreferrer"
+        >
+          🖨 {slide.cheatsheetZh} · {slide.cheatsheetEn}
+        </a>
+      )}
     </div>
   )
 }

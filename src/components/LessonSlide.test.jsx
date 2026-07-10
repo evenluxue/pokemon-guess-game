@@ -87,6 +87,19 @@ describe('LessonSlide', () => {
     expect(screen.getByText('Question two')).toBeTruthy()
   })
 
+  it('shows an illustrative image on discuss slides when provided', () => {
+    const slide = {
+      type: 'discuss',
+      titleZh: '标题', titleEn: 'Title',
+      promptZh: '提示', promptEn: 'Prompt',
+      img: '/lesson/ash-pikachu.webp',
+      questions: [{ zh: '问题一', en: 'Question one' }],
+    }
+    const { container } = render(<LessonSlide slide={slide} />)
+    const img = container.querySelector('.discuss-img')
+    expect(img.getAttribute('src')).toBe('/lesson/ash-pikachu.webp')
+  })
+
   it('fires onStartGame from the transition slide button', () => {
     const onStartGame = vi.fn()
     const slide = { type: 'transition', titleZh: '游戏', titleEn: 'Game', bodyZh: '', bodyEn: '', buttonZh: '开始', buttonEn: 'Play' }

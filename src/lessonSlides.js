@@ -44,6 +44,7 @@ export const LESSON_SLIDES = [
     type: 'discuss',
     titleZh: '看看你观察到了什么?',
     titleEn: 'What Did You Notice?',
+    img: '/lesson/ash-pikachu.webp',
     promptZh: '视频看完啦，一起来聊聊吧!',
     promptEn: "Now that you've watched the video, let's talk about it!",
     questions: [

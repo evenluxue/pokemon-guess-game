@@ -92,6 +92,7 @@ function DiscussSlide({ slide }) {
     <div className="lesson-slide lesson-discuss">
       <h2 className="lesson-title-zh">{slide.titleZh}</h2>
       <p className="lesson-title-en">{slide.titleEn}</p>
+      {slide.img && <img className="discuss-img" src={slide.img} alt={slide.titleEn} />}
       <p className="lesson-body-zh">{slide.promptZh}</p>
       <p className="lesson-body-en">{slide.promptEn}</p>
       <ul className="discuss-questions">

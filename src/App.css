@@ -761,6 +761,8 @@ button.history-item:hover { background: rgba(255, 255, 255, 0.16); transform: tr
 .journey-step-zh { font-size: 1.2rem; }
 .journey-step-en { font-size: 0.9rem; color: #6b7280; margin-left: auto; }
 
+.discuss-img { max-height: 32vh; max-width: 90%; object-fit: contain; border-radius: 0.75rem; margin: 0.3rem 0; }
+
 .discuss-questions { list-style: none; padding: 0; margin: 0.5rem 0; display: grid; gap: 0.6rem; width: min(52rem, 94%); }
 .discuss-question { display: flex; align-items: center; gap: 0.9rem; padding: 0.7rem 1.1rem; border: 2px solid #e5e7eb; border-radius: 0.75rem; text-align: left; background: #fffbeb; color: #78350f; }
 .discuss-q-icon { font-size: 1.7rem; }
